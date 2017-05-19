@@ -12,7 +12,7 @@
  	http://www.springframework.org/schema/mvc 
     http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
 
-	<context:component-scan base-package="controller,serviceimpl,mapper" />
+	<context:component-scan base-package="controller,serviceImpl,mapper" />
 
 	<mvc:annotation-driven>
 		<mvc:message-converters>
