@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import domain.User;
 import service.UserService;
+import util.CheckAndResult;
 import util.Result;
+import util.StringMatch;
 
 @Controller
 @ResponseBody
@@ -18,23 +20,25 @@ public class LoginController {
 
 	@RequestMapping("/register")
 	public Object register(String name, String password) {
-		User u = userService.find(name);
-		Result result = new Result();
-		if (u==null) {
-			userService.register(name, password);
-			result.setSuccess(true);
-			result.setData(u);
+		Result result = CheckAndResult.checkEmailBackResult(name);
+		if (result.isSuccess()) {
+			User u = userService.find(name);
+			if (u==null) {
+				userService.register(name, password);
+				result.setData(u);
+			}
 		}
 		return result;
 	}
 
 	@RequestMapping("/login")
 	public Object login(String name, String password) {
-		User u = userService.find(name);
-		Result result = new Result();
-		if (u!=null) {
-			result.setSuccess(true);
-			result.setData(u.toString());
+		Result result = CheckAndResult.checkEmailBackResult(name);
+		if (result.isSuccess()) {
+			User u = userService.find(name);
+			if (u!=null) {
+				result.setData(u.toString());
+			}
 		}
 		return result;
 	}
@@ -42,20 +46,24 @@ public class LoginController {
 	
 	@RequestMapping("/activited")
 	public Object activited(String name, String authCode) {
-		userService.activited(name, authCode);
-		Result result = new Result();
-		result.setSuccess(true);
+		Result result = CheckAndResult.checkEmailBackResult(name);
+		if (result.isSuccess()) {
+			userService.activited(name, authCode);
+		}
 		return result;
 	}
 	
 	
 	@RequestMapping("/resetpassword")
 	public Object activited(String name) {
-		String newPassWord = userService.resetPassword(name);
-		Result result = new Result();
-		if (newPassWord != null) {
-			result.setSuccess(true);
-			result.setData(newPassWord);
+		Result result = CheckAndResult.checkEmailBackResult(name);
+		if (result.isSuccess()) {
+			String newPassWord = userService.resetPassword(name);
+			if (newPassWord != null) {
+				result.setStateAndData(true, newPassWord);
+			} else {
+				result.setStateAndData(false, "√‹¬Î÷ÿ÷√ ß∞‹");
+			}
 		}
 		return result;
 	}

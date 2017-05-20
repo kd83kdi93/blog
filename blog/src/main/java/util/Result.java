@@ -19,6 +19,11 @@ public class Result {
 	public void setData(Object data) {
 		this.data = data;
 	}
+	
+	public void setStateAndData(boolean state, Object data) {
+		this.success = state;
+		this.data = data;
+	}
 
 	@Override
 	public String toString() {
