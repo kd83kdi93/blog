@@ -22,10 +22,11 @@ public class LoginController {
 	public Object register(String name, String password) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
 		if (result.isSuccess()) {
-			User u = userService.find(name);
-			if (u==null) {
+			User u = userService.find(name, password);
+			if (u == null) {
 				userService.register(name, password);
-				result.setData(u);
+			} else {
+				result.setStateAndData(false, "用户已存在");
 			}
 		}
 		return result;
@@ -35,15 +36,23 @@ public class LoginController {
 	public Object login(String name, String password) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
 		if (result.isSuccess()) {
-			User u = userService.find(name);
-			if (u!=null) {
-				result.setData(u.toString());
+			User u = userService.find(name, password);
+			while (true) {
+				if (u == null) {
+					result.setStateAndData(false, "用户名不正确");
+					break;
+				}
+				if (u.getActivited() != 1) {
+					result.setStateAndData(false, "你的帐号还未激活");
+				} else {
+					result.setData(u);
+				}
+				break;
 			}
 		}
 		return result;
 	}
-	
-	
+
 	@RequestMapping("/activited")
 	public Object activited(String name, String authCode) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
@@ -52,8 +61,7 @@ public class LoginController {
 		}
 		return result;
 	}
-	
-	
+
 	@RequestMapping("/resetpassword")
 	public Object activited(String name) {
 		Result result = CheckAndResult.checkEmailBackResult(name);

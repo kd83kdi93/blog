@@ -20,9 +20,10 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 	
 	@Override
-	public User find(String name) {
+	public User find(String name, String password) {
 		User u = new User();
 		u.setName(name);
+		u.setPassword(password);
 		u = userMapper.get(u);
 		return u;
 	}
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
 		u.setName(name);
 		String authCode = UUID.randomUUID().toString();
 		u.setAuthcode(authCode);
+		u.setPassword(password);
 		try {
 			String text = "http://localhost:8080/blog/user/activited?name="+name+"&authCode="+authCode;
 			Email.send(name, "º§ªÓ¡¥Ω”" ,text);
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String resetPassword(String name) {
-		User u = find(name);
+		User u = find(name, null);
 		String result = null;
 		if (u!=null) {
 			String password = UUID.randomUUID().toString().substring(0, 4);

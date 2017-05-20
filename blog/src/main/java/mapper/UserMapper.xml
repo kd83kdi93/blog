@@ -9,7 +9,7 @@
    
    
    	<select id="get" resultType="domain.User">
-   			select * from tb_user where name=#{name} limit 1
+   			select * from tb_user where name=#{name} and password=#{password} limit 1
    	</select>
 	
 	

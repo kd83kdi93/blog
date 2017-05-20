@@ -1,10 +1,15 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
 	private int id;
 	private String name;
+	@JsonIgnore
 	private String password;
+	@JsonIgnore
 	private String authcode;
+	@JsonIgnore
 	private int activited;
 
 	public int getId() {
