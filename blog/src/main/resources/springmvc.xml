@@ -12,7 +12,7 @@
  	http://www.springframework.org/schema/mvc 
     http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
 
-	<context:component-scan base-package="controller,serviceImpl,mapper" />
+	<context:component-scan base-package="controller,serviceImpl,mapper,util" />
 
 	<mvc:annotation-driven>
 		<mvc:message-converters>
@@ -21,6 +21,21 @@
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	
+	<bean id="prop"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<!-- 这里是PropertiesFactoryBean类，它也有个locations属性，也是接收一个数组，跟上面一样 -->
+		<property name="locations">
+			<array>
+				<value>classpath:pro.properties</value>
+			</array>
+		</property>
+	</bean>
+	
+	<mvc:interceptors>
+		<bean class="interceptor.CorsInterceptor"></bean>
+	</mvc:interceptors>
+
 	
 
 </beans>
