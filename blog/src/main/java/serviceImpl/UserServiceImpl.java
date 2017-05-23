@@ -40,8 +40,9 @@ public class UserServiceImpl implements UserService {
 			Email.send(name, "激活链接" ,text);
 		} catch (MessagingException e) {
 			e.printStackTrace();
+		} finally {
+			userMapper.add(u);
 		}
-		userMapper.add(u);
 	}
 
 	@Override
@@ -54,14 +55,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String resetPassword(String name) {
-		User u = find(name, null);
-		String result = null;
+	public boolean resetPassword(String name) {
+		User u = userMapper.getByName(name);
+		boolean result = false;
 		if (u!=null) {
 			String password = UUID.randomUUID().toString().substring(0, 4);
 			u.setPassword(password);
 			userMapper.setPassword(u);
-			result = password;
+			String text = "你的密码已经重置为  "+password+"  请登陆后自行修改";
+			try {
+				Email.send(name, "密码重置" , text);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			} finally {
+				result = true;
+			}
 		}
 		return result;
 	}

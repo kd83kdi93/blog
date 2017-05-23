@@ -66,9 +66,9 @@ public class LoginController {
 	public Object activited(String name) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
 		if (result.isSuccess()) {
-			String newPassWord = userService.resetPassword(name);
-			if (newPassWord != null) {
-				result.setStateAndData(true, newPassWord);
+			boolean isChanged = userService.resetPassword(name);
+			if (isChanged) {
+				result.setStateAndData(true, "重置密码已经发到你的邮箱请查看后自行修改");
 			} else {
 				result.setStateAndData(false, "密码重置失败");
 			}

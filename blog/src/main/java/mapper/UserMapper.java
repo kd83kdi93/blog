@@ -7,5 +7,5 @@ public interface UserMapper {
 	User get(User u);
 	void setActivited(User u);
 	void setPassword(User u);
-	
+	User getByName(String name);
 }
