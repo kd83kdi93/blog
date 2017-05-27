@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<title>Login One</title>
+	<title>登录</title>
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<meta charset="UTF-8">
@@ -14,13 +14,13 @@
 <body class="templatemo-bg-gray">
 	<div class="container">
 		<div class="col-md-12">
-			<h1 class="margin-bottom-15">Login Form One</h1>
-			<form class="form-horizontal templatemo-container templatemo-login-form-1 margin-bottom-30" role="form" action="#" method="post">				
+			<h1 class="margin-bottom-15">登录</h1>
+			<form class="form-horizontal templatemo-container templatemo-login-form-1 margin-bottom-30" role="form" action="#" method="post" id="loginForm">				
 		        <div class="form-group">
 		          <div class="col-xs-12">		            
 		            <div class="control-wrapper">
 		            	<label for="username" class="control-label fa-label"><i class="fa fa-user fa-medium"></i></label>
-		            	<input type="text" class="form-control" id="username" placeholder="email">
+		            	<input type="text" class="form-control" id="username" placeholder="用户名" v-model="name">
 		            </div>		            	            
 		          </div>              
 		        </div>
@@ -28,7 +28,7 @@
 		          <div class="col-md-12">
 		          	<div class="control-wrapper">
 		            	<label for="password" class="control-label fa-label"><i class="fa fa-lock fa-medium"></i></label>
-		            	<input type="password" class="form-control" id="password" placeholder="Password">
+		            	<input type="password" class="form-control" id="password" placeholder="密码" v-model="password">
 		            </div>
 		          </div>
 		        </div>
@@ -36,7 +36,7 @@
 		          <div class="col-md-12">
 	             	<div class="checkbox control-wrapper">
 	                	<label>
-	                  		<input type="checkbox"> Remember me
+	                  		<input type="checkbox"> 记录密码
                 		</label>
 	              	</div>
 		          </div>
@@ -44,17 +44,52 @@
 		        <div class="form-group">
 		          <div class="col-md-12">
 		          	<div class="control-wrapper">
-		          		<input type="submit" value="Log in" class="btn btn-info">
-		          		<a href="forgot-password.html" class="text-right pull-right">Forgot password?</a>
+		          		<input type="button" value="登录" class="btn btn-info" v-on:click="login">
+		          		<a href="resetpassword.html" class="text-right pull-right">忘记密码?</a>
 		          	</div>
 		          </div>
 		        </div>
 		        <hr>
 		      </form>
 		      <div class="text-center">
-		      	<a href="create-account.html" class="templatemo-create-new">Create new account <i class="fa fa-arrow-circle-o-right"></i></a>	
+		      	<a href="register.html" class="templatemo-create-new">创建一个新的账户 <i class="fa fa-arrow-circle-o-right"></i></a>	
 		      </div>
 		</div>
 	</div>
+	
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/vue.js"></script>
+	<script type="text/javascript" src="js/url.js" ></script>
+	<script>
+		let v = new Vue({
+			el:'#loginForm',
+			data:{
+				name:'',
+				password:'',
+			},
+			methods:{
+				login:function() {
+					let nameFlag = v.name != '';
+					let passwordFlag = v.password != '';
+					let data = {
+						name:v.name,
+						password:v.password,
+					};
+					if (nameFlag && passwordFlag) {
+						sendAJAX('get', '/user/login', data, function(result) {
+							if (result.success == 1) {
+								window.location = 'index.html';
+							} else {
+								alert(result.data);
+							}
+						})
+					} else {
+						alert('用户名或密码为空');
+					}
+				}
+			}
+		})
+	</script>
 </body>
 </html>

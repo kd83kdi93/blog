@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<title>Create Account</title>
+	<title>注册</title>
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<meta charset="UTF-8">
@@ -11,7 +11,7 @@
 	<link href="css/templatemo_style.css" rel="stylesheet" type="text/css">	
 </head>
 <body class="templatemo-bg-gray">
-	<h1 class="margin-bottom-15">Create Account</h1>
+	<h1 class="margin-bottom-15">注册账户</h1>
 	<div class="container">
 		<div class="col-md-12">			
 			<form class="form-horizontal templatemo-create-account templatemo-container" role="form" action="#" method="post">
@@ -25,18 +25,18 @@
 			        </div>			
 			        <div class="form-group">
 			          <div class="col-md-6">
-			            <label for="password" class="control-label">Password</label>
+			            <label for="password" class="control-label">密码</label>
 			            <input type="password" class="form-control" id="password" placeholder="" v-model="password">
 			          </div>
 			          <div class="col-md-6">
-			            <label for="password" class="control-label">Confirm Password</label>
+			            <label for="password" class="control-label">重复密码</label>
 			            <input type="password" class="form-control" id="password_confirm" placeholder="" v-model="confirmPassword">
 			          </div>
 			        </div>
 			        <div class="form-group">
 			          <div class="col-md-12">
-			            <input type="#" value="Create account" class="btn btn-info" v-on:click="test">
-			            <a href="login.html" class="pull-right">Login</a>
+			            <input type="#" value="注册" class="btn btn-info" v-on:click="register">
+			            <a href="login.html" class="pull-right">返回登录</a>
 			          </div>
 			        </div>	
 				</div>				    	
@@ -44,25 +44,8 @@
 		</div>
 	</div>
 	<!-- Modal -->
-	<div class="modal fade" id="templatemo_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Terms of Service</h4>
-	      </div>
-	      <div class="modal-body">
-	      	<p>This form is provided by <a rel="nofollow" href="http://www.cssmoban.com/page/1">Free HTML5 Templates</a> that can be used for your websites. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-	        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-	        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/vue.js"></script>
 	<script type="text/javascript" src="js/url.js" ></script>
@@ -75,7 +58,7 @@
 				confirmPassword:'',
 			},
 			methods:{
-				test:function() {
+				register:function() {
 					let flag = 0;
 					let nameFlag = v.name != '';
 					let passwordFlag = v.password != '';
@@ -83,7 +66,6 @@
 					let equalFlag = v.password == v.confirmPassword;
 					if (nameFlag && passwordFlag && confirmPasswordFlag && equalFlag) {
 						flag = 1;
-						alert('yes')
 					}
 					if (flag == 1) {
 						let data = {
@@ -91,7 +73,11 @@
 							password:v.password
 						}
 						sendAJAX('get','/user/register',data,function(result){
-							alert('服务器响应 '+result);
+							if (result.success == 1) {
+								window.location = 'login.html';
+							} else {
+								alert('服务器响应 '+result.data);
+							}
 						})
 					} else {
 						alert('两次密码不一致');
