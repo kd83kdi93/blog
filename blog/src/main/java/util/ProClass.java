@@ -1,17 +1,10 @@
 package util;
 
-import java.io.Serializable;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProClass implements Serializable{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7829570553556890104L;
+public class ProClass{
 
 	@Value("#{prop.accessUrl}")
 	private String accessUrl;

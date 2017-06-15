@@ -11,11 +11,11 @@
 		<div class="container">
 			<div class="row" id="hello">
 				<template v-if="userName != ''">
-					<p class="text-center text-success">Hello {{userName}}</p>
-					<p>LogOut <a v-on:click="logOut()">{{userName}}</a></p>
+					<p class="text-center text-success">Hello {{userName}}    <a v-on:click="logOut()">LogOut</a>   <a href="login.html">login</a></p>
+					<p></p>
 				</template>
 				<template v-else>
-					<p class="text-center text-success">Hello touriest</p>
+					<p class="text-center text-success">Hello touriest     <a href="login.html">login</a></p>
 				</template>
 				<div class="pull-left">
 					<ul>

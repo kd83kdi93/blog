@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class User implements Serializable{
+public class User implements Serializable {
 
 	/**
 	 * 
@@ -12,6 +12,7 @@ public class User implements Serializable{
 	private static final long serialVersionUID = -6377972155880873842L;
 	private int id;
 	private String name;
+	private int level;
 	@JsonIgnore
 	private String password;
 	@JsonIgnore
@@ -59,6 +60,16 @@ public class User implements Serializable{
 		this.activited = activited;
 	}
 
+	public int getLevel() {
+		return level;
+	}
 
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 }

@@ -79,12 +79,21 @@
 					};
 					if (nameFlag && passwordFlag) {
 						sendAJAX('get', '/user/login', data, function(result) {
-							if (result.success == 1) {
-								window.user = result.data;
-								window.location = 'index.html';
-							} else {
-								alert(result.data);
-							}
+							do{
+								if (result.success != 1) {
+									break;
+								}
+								let returnUrl = '';
+								let level = result.data.level;
+								if (level == 1) {
+									returnUrl = 'index.html';
+								} else if (level == 2) {
+									returnUrl = 'applicationguide.html';
+								}
+								window.location = returnUrl;
+								return;
+							}while(false)
+							alert('用户名和密码错误');
 						})
 					} else {
 						alert('用户名或密码为空');
