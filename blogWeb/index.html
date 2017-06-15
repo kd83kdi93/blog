@@ -3,11 +3,68 @@
 
 	<head>
 		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<title>主页</title>
 	</head>
 
-	<body>
+	<body style="margin: 50px;">
+		<div class="container">
+			<div class="row" id="hello">
+				<template v-if="userName != ''">
+					<p class="text-center text-success">Hello {{userName}}</p>
+					<p>LogOut <a v-on:click="logOut()">{{userName}}</a></p>
+				</template>
+				<template v-else>
+					<p class="text-center text-success">Hello touriest</p>
+				</template>
+				<div class="pull-left">
+					<ul>
+						<li>1</li>
+						<li>2</li>
+						<li>3</li>
+					</ul>
+				</div>
+				<div class="pull-right">
+					<ul>
+						<li>1</li>
+						<li>2</li>
+						<li>3</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
+		<script src="js/blogapp/jquery-3.2.1.min.js"></script>
+		<script src="js/blogapp/bootstrap.min.js"></script>
+		<script src="js/blogapp/vue.js"></script>
+		<script src="js/blogapp/url.js"></script>
+		
+		<script>
+			let v = new Vue({
+				el:"#hello",
+				data:{
+					userName:""
+				},
+				methods:{
+					logOut:function(){
+						let data = {
+							name : v.userName
+						};
+						sendAJAX("get","/user/logout",data,function(result){
+							if (result.success == 1) {
+								window.location = 'index.html';
+							}
+						})
+					}
+				}
+			})
+			sendAJAX("get","/user/who",null,function(result){
+				if (result.success == 1) {
+					v.userName = result.data.name;
+				}
+			})
+			
+		</script>
 	</body>
 
 </html>

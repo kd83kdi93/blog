@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import redis.clients.jedis.Jedis;
 import util.StringMatch;
 
-public class Test {
+public class Test{
+	
 	@org.junit.Test
 	public void test() {
 		String reg = "^[0-9a-zA-Z]+.*@.*\\.[a-zA-Z]{2}$";
@@ -22,6 +24,14 @@ public class Test {
 			System.out.println(tmp+" "+StringMatch.checkEmail(tmp));
 		}
 		
+	}
+	
+	
+	@org.junit.Test
+	public void test1(){
+		Jedis jd = new Jedis("localhost",6380);
+        System.out.println(jd.ping());
+        jd.set("abc", "123");
 	}
 	
 	

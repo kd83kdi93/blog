@@ -25,4 +25,5 @@
 			update tb_user set password=#{password} where name=#{name}
 	</update>
 	
+	
 </mapper>  

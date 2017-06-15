@@ -6,10 +6,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
-	<link href="css/templatemo_style.css" rel="stylesheet" type="text/css">	
+	<link href="css/blogapp/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="css/blogapp/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="css/blogapp/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+	<link href="css/blogapp/templatemo_style.css" rel="stylesheet" type="text/css">	
 </head>
 <body class="templatemo-bg-gray">
 	<div class="container">
@@ -57,11 +57,12 @@
 		</div>
 	</div>
 	
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/vue.js"></script>
-	<script type="text/javascript" src="js/url.js" ></script>
+	<script type="text/javascript" src="js/blogapp/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/blogapp/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/blogapp/vue.js"></script>
+	<script type="text/javascript" src="js/blogapp/url.js" ></script>
 	<script>
+		window.tmpUser = "bikli";
 		let v = new Vue({
 			el:'#loginForm',
 			data:{
@@ -79,6 +80,7 @@
 					if (nameFlag && passwordFlag) {
 						sendAJAX('get', '/user/login', data, function(result) {
 							if (result.success == 1) {
+								window.user = result.data;
 								window.location = 'index.html';
 							} else {
 								alert(result.data);

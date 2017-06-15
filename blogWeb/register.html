@@ -1,92 +1,104 @@
 <!DOCTYPE html>
+
 <head>
 	<title>注册</title>
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
-	<link href="css/templatemo_style.css" rel="stylesheet" type="text/css">	
+
+	<link href="css/blogapp/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="css/blogapp/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+	<link href="css/blogapp/templatemo_style.css" rel="stylesheet" type="text/css">
 </head>
+
 <body class="templatemo-bg-gray">
 	<h1 class="margin-bottom-15">注册账户</h1>
 	<div class="container">
-		<div class="col-md-12">			
+		<div class="col-md-12">
 			<form class="form-horizontal templatemo-create-account templatemo-container" role="form" action="#" method="post">
 				<div class="form-inner" id='registerForm'>
-					
-			        <div class="form-group">
-			          <div class="col-md-12">		          	
-			            <label for="username" class="control-label">Email</label>
-			            <input type="email" class="form-control" id="email" placeholder="" v-model="name">		            		            		            
-			          </div>              
-			        </div>			
-			        <div class="form-group">
-			          <div class="col-md-6">
-			            <label for="password" class="control-label">密码</label>
-			            <input type="password" class="form-control" id="password" placeholder="" v-model="password">
-			          </div>
-			          <div class="col-md-6">
-			            <label for="password" class="control-label">重复密码</label>
-			            <input type="password" class="form-control" id="password_confirm" placeholder="" v-model="confirmPassword">
-			          </div>
-			        </div>
-			        <div class="form-group">
-			          <div class="col-md-12">
-			            <input type="#" value="注册" class="btn btn-info" v-on:click="register">
-			            <a href="login.html" class="pull-right">返回登录</a>
-			          </div>
-			        </div>	
-				</div>				    	
-		      </form>		      
+
+					<div class="form-group">
+						<div class="col-md-12">
+							<label for="username" class="control-label">Email</label>
+							<input type="email" class="form-control" id="email" placeholder="" v-model="name">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-6">
+							<label for="password" class="control-label">密码</label>
+							<input type="password" class="form-control" id="password" placeholder="" v-model="password">
+						</div>
+						<div class="col-md-6">
+							<label for="password" class="control-label">重复密码</label>
+							<input type="password" class="form-control" id="password_confirm" placeholder="" v-model="confirmPassword">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12">
+							<input type="#" value="注册" class="btn btn-info" v-on:click="register">
+							<a href="login.html" class="pull-right">返回登录</a>
+						</div>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 	<!-- Modal -->
 
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/vue.js"></script>
-	<script type="text/javascript" src="js/url.js" ></script>
+	<script type="text/javascript" src="js/blogapp/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/blogapp/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/blogapp/vue.js"></script>
+	<script type="text/javascript" src="js/blogapp/url.js"></script>
 	<script>
+		function checkParm(name, password, confirmPassword) {
+			let result = null;
+			let nameFlag = name != '';
+			let passwordFlag = password != '';
+			let confirmPasswordFlag = confirmPassword != '';
+			let equalFlag = password == confirmPassword;
+			if (!nameFlag) {
+				result = '用户名不能为空';
+			}
+			if (!passwordFlag || !confirmPasswordFlag) {
+				result = '密码不能为空';
+			}
+			if (!equalFlag) {
+				result = '两次密码不一致';
+			}
+			return result;
+		}
+		
 		var v = new Vue({
-			el:'#registerForm',
-			data:{
-				name:'',
-				password:'',
-				confirmPassword:'',
+			el: '#registerForm',
+			data: {
+				name: '',
+				password: '',
+				confirmPassword: '',
 			},
-			methods:{
-				register:function() {
-					let flag = 0;
-					let nameFlag = v.name != '';
-					let passwordFlag = v.password != '';
-					let confirmPasswordFlag = v.confirmPassword != '';
-					let equalFlag = v.password == v.confirmPassword;
-					if (nameFlag && passwordFlag && confirmPasswordFlag && equalFlag) {
-						flag = 1;
-					}
-					if (flag == 1) {
+			methods: {
+				register: function() {
+					let result = checkParm(v.name,v.password,v.confirmPassword);
+					if(result == null) {
 						let data = {
-							name:v.name,
-							password:v.password
+							name: v.name,
+							password: v.password
 						}
-						sendAJAX('get','/user/register',data,function(result){
-							if (result.success == 1) {
+						sendAJAX('get', '/user/register', data, function(result) {
+							if(result.success == 1) {
 								window.location = 'login.html';
 							} else {
-								alert('服务器响应 '+result.data);
+								alert(result.data);
 							}
 						})
 					} else {
-						alert('两次密码不一致');
+						alert(result);
 					}
 				}
 			}
 		})
-		
-		
 	</script>
 </body>
+
 </html>

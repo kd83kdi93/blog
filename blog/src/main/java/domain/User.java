@@ -1,8 +1,15 @@
 package domain;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class User {
+public class User implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6377972155880873842L;
 	private int id;
 	private String name;
 	@JsonIgnore
@@ -52,9 +59,6 @@ public class User {
 		this.activited = activited;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + "]";
-	}
+
 
 }

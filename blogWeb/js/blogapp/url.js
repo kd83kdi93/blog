@@ -1,4 +1,4 @@
-var locationURL = 'http://localhost:8080/blog'
+var locationURL = '/blog'
 
 function sendAJAX(method, url, data, successCall) {
 	$.ajax({

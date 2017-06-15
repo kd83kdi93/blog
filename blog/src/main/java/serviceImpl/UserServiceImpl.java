@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Override
 	public User find(String name, String password) {
 		User u = new User();
@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
 		u.setAuthcode(authCode);
 		u.setPassword(password);
 		try {
-			String text = "http://localhost:8080/blog/user/activited?name="+name+"&authCode="+authCode;
-			Email.send(name, "激活链接" ,text);
+			String text = "http://localhost:8080/blog/user/activited?name=" + name + "&authCode=" + authCode;
+			Email.send(name, "账户激活", text);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} finally {
@@ -51,20 +51,20 @@ public class UserServiceImpl implements UserService {
 		u.setName(name);
 		u.setAuthcode(authCode);
 		userMapper.setActivited(u);
-		
+
 	}
 
 	@Override
 	public boolean resetPassword(String name) {
 		User u = userMapper.getByName(name);
 		boolean result = false;
-		if (u!=null) {
+		if (u != null) {
 			String password = UUID.randomUUID().toString().substring(0, 4);
 			u.setPassword(password);
 			userMapper.setPassword(u);
-			String text = "你的密码已经重置为  "+password+"  请登陆后自行修改";
+			String text = "新的密码为   " + password;
 			try {
-				Email.send(name, "密码重置" , text);
+				Email.send(name, "密码重置", text);
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			} finally {
@@ -72,6 +72,12 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public User findByName(String name) {
+		User u = userMapper.getByName(name);
+		return u;
 	}
 
 }

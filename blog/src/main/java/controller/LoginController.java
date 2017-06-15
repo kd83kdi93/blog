@@ -1,5 +1,7 @@
 package controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,8 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import domain.User;
 import service.UserService;
 import util.CheckAndResult;
+import util.ProClass;
 import util.Result;
-import util.StringMatch;
 
 @Controller
 @ResponseBody
@@ -17,41 +19,58 @@ import util.StringMatch;
 public class LoginController {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ProClass proClass;
 
 	@RequestMapping("/register")
 	public Object register(String name, String password) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
 		if (result.isSuccess()) {
-			User u = userService.find(name, password);
+			User u = userService.findByName(name);
 			if (u == null) {
 				userService.register(name, password);
 			} else {
-				result.setStateAndData(false, "用户已存在");
+				result.setStateAndData(false, "用户名已存在");
 			}
 		}
 		return result;
 	}
 
+	
 	@RequestMapping("/login")
-	public Object login(String name, String password) {
+	public Object login(String name, String password, HttpSession session) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
-		if (result.isSuccess()) {
-			User u = userService.find(name, password);
-			while (true) {
+		User u = (User) session.getAttribute("user");
+		if (u == null && result.isSuccess()) {
+			u = userService.find(name, password);
+			do {
 				if (u == null) {
-					result.setStateAndData(false, "用户名不正确");
+					result.setStateAndData(false, "用户名或密码错误");
 					break;
 				}
 				if (u.getActivited() != 1) {
-					result.setStateAndData(false, "你的帐号还未激活");
+					result.setStateAndData(false, "用户还未激活");
 				} else {
 					result.setData(u);
+					session.setAttribute("user", u);
 				}
-				break;
-			}
+			} while (false);
+		} else if (u != null && result.isSuccess()) {
+			result.setData(u);
 		}
 		return result;
 	}
+	
+	@RequestMapping("/logout")
+	public Object logout(String name,HttpSession session) {
+		Result result = CheckAndResult.checkEmailBackResult(name);
+		if (result.isSuccess()) {
+			session.removeAttribute("user");
+		}
+		return result;
+	}
+	
 
 	@RequestMapping("/activited")
 	public Object activited(String name, String authCode) {
@@ -59,19 +78,30 @@ public class LoginController {
 		if (result.isSuccess()) {
 			userService.activited(name, authCode);
 		}
-		return result;
+		return "<a href='"+proClass.getAccessUrl()+"'> return index </a>";
 	}
 
 	@RequestMapping("/resetpassword")
-	public Object activited(String name) {
+	public Object activited(String name, HttpSession session) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
 		if (result.isSuccess()) {
 			boolean isChanged = userService.resetPassword(name);
 			if (isChanged) {
-				result.setStateAndData(true, "重置密码已经发到你的邮箱请查看后自行修改");
+				result.setStateAndData(true, "密码已经重置成功,请查看邮箱");
 			} else {
 				result.setStateAndData(false, "密码重置失败");
 			}
+		}
+		return result;
+	}
+	
+	@RequestMapping("who")
+	public Object who(HttpSession session) {
+		User u = (User) session.getAttribute("user");
+		Result result = new Result();
+		if (u != null) {
+			result.setData(u);
+			result.setSuccess(true);
 		}
 		return result;
 	}
