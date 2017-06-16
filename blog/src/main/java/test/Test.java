@@ -35,5 +35,19 @@ public class Test{
 	}
 	
 	
+	@org.junit.Test
+	public void test2() {
+		char[] buf = new char[3];
+		buf[0] = 'a';
+		buf[1] = 'b';
+		buf[2] = 'c';
+		changed(buf);
+		System.out.println(buf);
+
+	}
+	
+	private void changed(char[] buf){
+		buf[0]='A';
+	}
 	
 }

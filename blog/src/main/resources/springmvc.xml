@@ -84,7 +84,15 @@
 	</bean>
 
 	<mvc:interceptors>
-		<bean class="interceptor.CorsInterceptor"></bean>
+		<mvc:interceptor>
+		<mvc:mapping path="/"/>
+			<bean class="interceptor.CorsInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+		<mvc:mapping path="/console"/>
+			<bean class="interceptor.ConsoleInterceptor"></bean>
+		</mvc:interceptor>
+		
 	</mvc:interceptors>
 
 

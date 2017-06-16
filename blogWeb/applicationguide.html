@@ -1,47 +1,84 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>总应用向导</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-<link rel="stylesheet" type="text/css" media="all" href="css/applicationguide/metro.css" />
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>总应用向导</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-<script type="text/javascript" src="js/applicationguide/jquery.min.js"></script>
-<script type="text/javascript" src="js/applicationguide/jquery.plugins.min.js"></script>
-<script type="text/javascript" src="js/applicationguide/metro.js"></script>
+		<link rel="stylesheet" type="text/css" media="all" href="css/applicationguide/metro.css" />
 
-</head> 
+		<script type="text/javascript" src="js/applicationguide/jquery.min.js"></script>
+		<script type="text/javascript" src="js/applicationguide/jquery.plugins.min.js"></script>
+		<script type="text/javascript" src="js/applicationguide/metro.js"></script>
 
-<body>
+	</head>
 
-<div class="metro-layout vertical">
+	<body>
 
-	<div class="header">
-	
-		<h1>选择你的应用</h1>
-	
-		<div class="controls">
-			<span class="down" title="Scroll down"></span>
-			<span class="up" title="Scroll up"></span>
-			<span class="next" title="Scroll left"></span>
-			<span class="prev" title="Scroll right"></span>
-			<span class="toggle-view" title="Toggle layout"></span>
+		<div class="metro-layout vertical">
+
+			<div class="header">
+
+				<h1 id="application">选择你的应用
+					<template v-if="userName != ''">
+						<a href="#" v-on:click="logOut">注销</a>
+					</template>
+					<template v-else="">
+						<a href="http://localhost/login.html">登录</a>
+					</template>
+				</h1>
+
+				<div class="controls">
+					<span class="down" title="Scroll down"></span>
+					<span class="up" title="Scroll up"></span>
+					<span class="next" title="Scroll left"></span>
+					<span class="prev" title="Scroll right"></span>
+					<span class="toggle-view" title="Toggle layout"></span>
+				</div>
+
+			</div>
+
+			<div class="content clearfix">
+
+				<div class="items">
+					<a class="box" href="http://localhost/index.html" style="background: #00a9ec;"><span>博客</span><img class="icon" src="images/applicationguide/tasks.png" alt="" /></a>
+					<a class="box" href="http://localhost/console.html" style="background: #f874a4;"><span>控制台</span><img class="icon" src="images/applicationguide/dribbble.png" alt="" /></a>
+					<a class="box" href="#" style="background: #6b6b6b;"><span>后台控制</span><img class="icon" src="images/applicationguide/settings.png" alt="" /></a>
+				</div>
+
+			</div>
+
 		</div>
-		
-	</div>
+		<script src="js/blogapp/vue.js"></script>
+		<script src="js/blogapp/url.js"></script>
+		<script>
+			let v = new Vue({
+				el: '#application',
+				data: {
+					userName: ''
+				},
+				methods:{
+					logOut:function(){
+						sendAJAX("get","/user/logout",null,function(result){
+							if (result.success == 1) {
+								window.location = 'applicationguide.html';
+							}
+						})
+					}
+				}
+			})
 
-	<div class="content clearfix">
-	
-		<div class="items">
-			<a class="box" href="http://localhost/index.html" style="background: #00a9ec;"><span>博客</span><img class="icon" src="images/applicationguide/tasks.png" alt="" /></a>
-			<a class="box" href="#" style="background: #f874a4;"><span>控制台</span><img class="icon" src="images/applicationguide/dribbble.png" alt="" /></a>
-			<a class="box" href="#" style="background: #6b6b6b;"><span>后台控制</span><img class="icon" src="images/applicationguide/settings.png" alt="" /></a>
-		</div>
-	
-	</div>
+			$(document).ready(function() {
+				sendAJAX('get', '/user/who', null, function(res) {
+					if(res.success == 1) {
+						v.userName = res.data.name;
+					} else {
+						v.userName = '';
+					}
+				})
+			})
+		</script>
+	</body>
 
-</div>
-
-</body>
 </html>

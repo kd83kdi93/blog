@@ -47,10 +47,7 @@
 				},
 				methods:{
 					logOut:function(){
-						let data = {
-							name : v.userName
-						};
-						sendAJAX("get","/user/logout",data,function(result){
+						sendAJAX("get","/user/logout",null,function(result){
 							if (result.success == 1) {
 								window.location = 'index.html';
 							}

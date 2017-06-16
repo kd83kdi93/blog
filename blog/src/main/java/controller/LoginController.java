@@ -19,7 +19,7 @@ import util.Result;
 public class LoginController {
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private ProClass proClass;
 
@@ -37,7 +37,6 @@ public class LoginController {
 		return result;
 	}
 
-	
 	@RequestMapping("/login")
 	public Object login(String name, String password, HttpSession session) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
@@ -61,16 +60,14 @@ public class LoginController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping("/logout")
-	public Object logout(String name,HttpSession session) {
-		Result result = CheckAndResult.checkEmailBackResult(name);
-		if (result.isSuccess()) {
-			session.removeAttribute("user");
-		}
+	public Object logout(HttpSession session) {
+		Result result = new Result();
+		session.removeAttribute("user");
+		result.setSuccess(true);
 		return result;
 	}
-	
 
 	@RequestMapping("/activited")
 	public Object activited(String name, String authCode) {
@@ -78,7 +75,7 @@ public class LoginController {
 		if (result.isSuccess()) {
 			userService.activited(name, authCode);
 		}
-		return "<a href='"+proClass.getAccessUrl()+"'> return index </a>";
+		return "<a href='" + proClass.getAccessUrl() + "'> return index </a>";
 	}
 
 	@RequestMapping("/resetpassword")
@@ -94,7 +91,7 @@ public class LoginController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping("who")
 	public Object who(HttpSession session) {
 		User u = (User) session.getAttribute("user");

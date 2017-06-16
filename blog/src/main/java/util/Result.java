@@ -1,6 +1,12 @@
 package util;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4864197110143736535L;
 	private boolean success = false;
 	private Object data = null;
 
@@ -30,4 +36,9 @@ public class Result {
 		return "Result [success=" + success + ", data=" + data + "]";
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
 }
