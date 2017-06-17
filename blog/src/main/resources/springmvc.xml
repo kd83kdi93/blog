@@ -85,14 +85,18 @@
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-		<mvc:mapping path="/"/>
+			<mvc:mapping path="/" />
 			<bean class="interceptor.CorsInterceptor"></bean>
 		</mvc:interceptor>
 		<mvc:interceptor>
-		<mvc:mapping path="/console"/>
-			<bean class="interceptor.ConsoleInterceptor"></bean>
+			<mvc:mapping path="/"/>
+			<bean class="interceptor.TouristInterceptor"></bean>
 		</mvc:interceptor>
-		
+		<mvc:interceptor>
+			<mvc:mapping path="/console" />
+			<bean class="interceptor.LevelOneUserInterceptor"></bean>
+		</mvc:interceptor>
+
 	</mvc:interceptors>
 
 
