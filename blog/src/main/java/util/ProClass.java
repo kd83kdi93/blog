@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProClass{
+public class ProClass {
 
 	@Value("#{prop.accessUrl}")
 	private String accessUrl;
@@ -14,6 +14,9 @@ public class ProClass{
 
 	@Value("#{prop.redisPort}")
 	private int redisPort;
+
+	@Value("#{prop.loginHtml}")
+	private String loginHtml;
 
 	public String getAccessUrl() {
 		return accessUrl;
@@ -37,6 +40,14 @@ public class ProClass{
 
 	public void setRedisPort(int redisPort) {
 		this.redisPort = redisPort;
+	}
+
+	public String getLoginHtml() {
+		return loginHtml;
+	}
+
+	public void setLoginHtml(String loginHtml) {
+		this.loginHtml = loginHtml;
 	}
 
 }

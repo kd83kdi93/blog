@@ -40,8 +40,9 @@ public class LoginController {
 	@RequestMapping("/login")
 	public Object login(String name, String password, HttpSession session) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
-		User u = (User) session.getAttribute("user");
-		if (u == null && result.isSuccess()) {
+		User u = null;
+		if (result.isSuccess()) {
+			session.removeAttribute("user");
 			u = userService.find(name, password);
 			do {
 				if (u == null) {
@@ -55,8 +56,6 @@ public class LoginController {
 					session.setAttribute("user", u);
 				}
 			} while (false);
-		} else if (u != null && result.isSuccess()) {
-			result.setData(u);
 		}
 		return result;
 	}
@@ -75,7 +74,7 @@ public class LoginController {
 		if (result.isSuccess()) {
 			userService.activited(name, authCode);
 		}
-		return "<a href='" + proClass.getAccessUrl() + "'> return index </a>";
+		return "<a href='" + proClass.getLoginHtml() + "'> return login </a>";
 	}
 
 	@RequestMapping("/resetpassword")

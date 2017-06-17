@@ -26,7 +26,6 @@
 									<div class="input-group-btn">
 										<a class="btn btn-primary" v-on:click="sendCommands">发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送</a>
 										<a class="btn btn-default" href="http://localhost/applicationguide.html">返回应用向导</a>
-										<a class="btn btn-default" v-on:click="logOut">注销并返回主页</a>
 									</div>
 
 								</div>
@@ -41,6 +40,7 @@
 		<script src="js/blogapp/bootstrap.min.js"></script>
 		<script src="js/blogapp/vue.js"></script>
 		<script src="js/blogapp/url.js"></script>
+		<script src="js/interface/userInterface.js"></script>
 		<script>
 			function createCommandsText(res) {
 				v.num = (v.num + 1) % 3;
@@ -90,7 +90,7 @@
 						let data = {
 							command: v.commandText
 						}
-						sendAJAX('post', '/console', data, function(res) {
+						CONsole(data, function(res) {
 							let resText = '命令请求失败';
 							if(res.success == 1) {
 								resText = res.data;
@@ -100,17 +100,17 @@
 							moveToBottom();
 						})
 					},
-					logOut:function(){
-						sendAJAX("get","/user/logout",null,function(result){
-							if (result.success == 1) {
-								window.location = 'index.html';
+					logOut: function() {
+						logout(function(result) {
+							if(result.success == 1) {
+								window.location = 'login.html';
 							}
 						})
 					}
 				}
 			})
 		</script>
-
+		<script src="js/interface/checkUserAccount.js"></script>
 	</body>
 
 </html>

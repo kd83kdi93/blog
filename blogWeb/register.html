@@ -38,7 +38,7 @@
 					<div class="form-group">
 						<div class="col-md-12">
 							<input type="#" value="注册" class="btn btn-info" v-on:click="register">
-							<a href="login.html" class="pull-right">返回登录</a>
+							<a href="applicationguide.html" class="pull-right">返回应用向导</a>
 						</div>
 					</div>
 				</div>
@@ -51,25 +51,27 @@
 	<script type="text/javascript" src="js/blogapp/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/blogapp/vue.js"></script>
 	<script type="text/javascript" src="js/blogapp/url.js"></script>
+	<script type="text/javascript" src="js/interface/userInterface.js"></script>
 	<script>
+
 		function checkParm(name, password, confirmPassword) {
 			let result = null;
 			let nameFlag = name != '';
 			let passwordFlag = password != '';
 			let confirmPasswordFlag = confirmPassword != '';
 			let equalFlag = password == confirmPassword;
-			if (!nameFlag) {
+			if(!nameFlag) {
 				result = '用户名不能为空';
 			}
-			if (!passwordFlag || !confirmPasswordFlag) {
+			if(!passwordFlag || !confirmPasswordFlag) {
 				result = '密码不能为空';
 			}
-			if (!equalFlag) {
+			if(!equalFlag) {
 				result = '两次密码不一致';
 			}
 			return result;
 		}
-		
+
 		var v = new Vue({
 			el: '#registerForm',
 			data: {
@@ -79,15 +81,15 @@
 			},
 			methods: {
 				register: function() {
-					let result = checkParm(v.name,v.password,v.confirmPassword);
+					let result = checkParm(v.name, v.password, v.confirmPassword);
 					if(result == null) {
 						let data = {
 							name: v.name,
 							password: v.password
 						}
-						sendAJAX('get', '/user/register', data, function(result) {
+						register(data, function(result) {
 							if(result.success == 1) {
-								window.location = 'login.html';
+								alert('账户注册成功');
 							} else {
 								alert(result.data);
 							}
@@ -99,6 +101,7 @@
 			}
 		})
 	</script>
+	<script src="js/interface/checkUserAccount.js"></script>
 </body>
 
 </html>
