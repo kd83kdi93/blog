@@ -3,7 +3,7 @@
 <mapper namespace="mapper.UserMapper">  
 
     
-    <insert id="add">
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
     		insert into tb_user(name,password,authcode) values(#{name},#{password},#{authcode})
     </insert>
    
@@ -14,6 +14,10 @@
    	
    	<select id="getByName" resultType="domain.User">
    			select * from tb_user where name=#{name} limit 1
+   	</select>
+   	
+   	<select id="getNameById" resultType="String">
+   			select name from tb_user where id = #{id}
    	</select>
 	
 	

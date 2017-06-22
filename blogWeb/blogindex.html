@@ -18,7 +18,7 @@
 		<link href="css/blogapp/style.css" rel="stylesheet">
 	</head>
 
-	<body>
+	<body id="body">
 		<!-- Navigation -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
@@ -47,84 +47,33 @@
 
 		<div class="container">
 			<br><br><br><br>
-			<div id="myCarousel" class="carousel slide">
-				<!-- 轮播（Carousel）指标 -->
-				<ol class="carousel-indicators">
-					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-					<li data-target="#myCarousel" data-slide-to="1"></li>
-					<li data-target="#myCarousel" data-slide-to="2"></li>
-				</ol>
-				<!-- 轮播（Carousel）项目 -->
-				<div class="carousel-inner">
-					<div class="item active">
-						<img src="images/blogapp/1140x500-1.jpg" alt="First slide">
-					</div>
-					<div class="item">
-						<img src="images/blogapp/1140x500-2.jpg" alt="Second slide">
-					</div>
-					<div class="item">
-						<img src="images/blogapp/1140x500-3.jpg" alt="Third slide">
-					</div>
-				</div>
-				<!-- 轮播（Carousel）导航 -->
-				<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;
-				</a>
-				<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;
-				</a>
-			</div>
+
 			<br><br><br>
 
-			<section>
+			<section id="index">
 				<div class="row">
 					<div class="col-md-8">
-						<article class="blog-post">
+						<article class="blog-post" v-for="item in blogContents">
 							<div class="blog-post-image">
-								<a href="post.html"><img src="images/blogapp/750x500-1.jpg" alt=""></a>
+								<a href="post.html"> <img v-bind:src="item.blogPicture" alt="" height="500" width="750"></a>
 							</div>
 							<div class="blog-post-body">
-								<h2><a href="post.html">Vintage-Inspired Finds for Your Home</a></h2>
-								<div class="post-meta"><span>by <a href="#">Jamie Mooze</a></span>/<span><i class="fa fa-clock-o"></i>March 14, 2015</span>/<span><i class="fa fa-comment-o"></i> <a href="#">343</a></span></div>
-								<p>ew months ago, we found ridiculously cheap plane tickets for Boston and off we went. It was our first visit to the city and, believe it or not, Stockholm in February was more pleasant than Boston in March. It probably has a lot to do with the fact that we arrived completely unprepared. That I, in my converse and thin jacket, did not end up with pneumonia is honestly not even fair.</p>
+								<h2><a href="post.html">{{item.blogTitle}}</a></h2>
+								<div class="post-meta"><span>by <a>{{userName}}</a></span>/<span><i class="fa fa-clock-o"></i>{{item.time}}</span>/<span><i class="fa fa-comment-o"></i> <a>{{item.recallNums}}</a></span></div>
+								<p>{{item.blogText}}</p>
 								<div class="read-more">
 									<a href="#">Continue Reading</a>
 								</div>
 							</div>
 						</article>
-						<!-- article -->
-						<article class="blog-post">
-							<div class="blog-post-image">
-								<a href="post.html"><img src="images/blogapp/750x500-2.jpg" alt=""></a>
-							</div>
-							<div class="blog-post-body">
-								<h2><a href="post.html">The Best Street Style Looks of London Fashion Week</a></h2>
-								<div class="post-meta"><span>by <a href="#">Jamie Mooze</a></span>/<span><i class="fa fa-clock-o"></i>March 14, 2015</span>/<span><i class="fa fa-comment-o"></i> <a href="#">343</a></span></div>
-								<p>Few months ago, we found ridiculously cheap plane tickets for Boston and off we went. It was our first visit to the city and, believe it or not, Stockholm in February was more pleasant than Boston in March. It probably has a lot to do with the fact that we arrived completely unprepared.</p>
-								<div class="read-more">
-									<a href="#">Continue Reading</a>
-								</div>
-							</div>
-						</article>
-						<!-- article -->
-						<article class="blog-post">
-							<div class="blog-post-image">
-								<a href="post.html"><img src="images/blogapp/750x500-3.jpg" alt=""></a>
-							</div>
-							<div class="blog-post-body">
-								<h2><a href="post.html">Front Row Style: Our Favorite A-List Moments of Fashion Week</a></h2>
-								<div class="post-meta"><span>by <a href="#">Jamie Mooze</a></span>/<span><i class="fa fa-clock-o"></i>March 14, 2015</span>/<span><i class="fa fa-comment-o"></i> <a href="#">343</a></span></div>
-								<p>It was our first visit to the city and, believe it or not, Stockholm in February was more pleasant than Boston in March. It probably has a lot to do with the fact that we arrived completely unprepared. Few months ago, we found ridiculously cheap plane tickets for Boston and off we went.</p>
-								<div class="read-more">
-									<a href="#">Continue Reading</a>
-								</div>
-							</div>
-						</article>
+
 						<div>
 							<ul class="pager">
 								<li class="previous">
-									<a href="#">&larr; Previous</a>
+									<a v-on:click="getPrePage">&larr; Previous</a>
 								</li>
 								<li class="next">
-									<a href="#">Next &rarr;</a>
+									<a v-on:click="getNextPage">Next &rarr;</a>
 								</li>
 							</ul>
 						</div>
@@ -136,68 +85,23 @@
 							<div class="sidebar-widget">
 								<h3 class="sidebar-title">About Me</h3>
 								<div class="widget-container widget-about">
-									<a href="post.html"><img src="images/blogapp/author.jpg" alt=""></a>
-									<h4>Jamie Mooz</h4>
-									<div class="author-title">Designer</div>
-									<p>While everyone’s eyes are glued to the runway, it’s hard to ignore that there are major fashion moments on the front row too.</p>
+									<a><img v-bind:src="blogUser.userIcon" alt="" height="420" width="640"></a>
+									<h4>{{userName}}</h4>
+									<p>{{blogUser.userDescription}}</p>
 								</div>
 							</div>
 							<!-- sidebar-widget -->
 							<div class="sidebar-widget">
 								<h3 class="sidebar-title">Featured Posts</h3>
 								<div class="widget-container">
-									<article class="widget-post">
+									<article class="widget-post" v-for="item in blogContents">
 										<div class="post-image">
-											<a href="post.html"><img src="images/blogapp/90x60-1.jpg" alt=""></a>
+											<a href="post.html"><img v-bind:src="item.blogPicture" alt="" height="60" width="90"></a>
 										</div>
 										<div class="post-body">
-											<h2><a href="post.html">The State of the Word 2014</a></h2>
+											<h2><a href="post.html">{{item.blogTitle}}</a></h2>
 											<div class="post-meta">
-												<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
-											</div>
-										</div>
-									</article>
-									<article class="widget-post">
-										<div class="post-image">
-											<a href="post.html"><img src="images/blogapp/90x60-2.jpg" alt=""></a>
-										</div>
-										<div class="post-body">
-											<h2><a href="post.html">Why The Muppets Needs to Channel 30 Rock</a></h2>
-											<div class="post-meta">
-												<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
-											</div>
-										</div>
-									</article>
-									<article class="widget-post">
-										<div class="post-image">
-											<a href="post.html"><img src="images/blogapp/90x60-3.jpg" alt=""></a>
-										</div>
-										<div class="post-body">
-											<h2><a href="post.html">The State of the Word 2014</a></h2>
-											<div class="post-meta">
-												<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
-											</div>
-										</div>
-									</article>
-									<article class="widget-post">
-										<div class="post-image">
-											<a href="post.html"><img src="images/blogapp/90x60-4.jpg" alt=""></a>
-										</div>
-										<div class="post-body">
-											<h2><a href="post.html">Vintage-Inspired Finds for Your Home</a></h2>
-											<div class="post-meta">
-												<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
-											</div>
-										</div>
-									</article>
-									<article class="widget-post">
-										<div class="post-image">
-											<a href="post.html"><img src="images/blogapp/90x60-5.jpg" alt=""></a>
-										</div>
-										<div class="post-body">
-											<h2><a href="post.html">The State of the Word 2014</a></h2>
-											<div class="post-meta">
-												<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
+												<span><i class="fa fa-clock-o"></i> {{item.time}}</span> <span><a><i class="fa fa-comment-o"></i> {{item.recallNums}}</a></span>
 											</div>
 										</div>
 									</article>
@@ -208,26 +112,21 @@
 								<h3 class="sidebar-title">Categories</h3>
 								<div class="widget-container">
 									<ul>
+										<li v-for="item in categories">
+											<a href="#">{{item}}</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="sidebar-widget">
+								<h3 class="sidebar-title">You Family</h3>
+								<div class="widget-container">
+									<ul>
 										<li>
-											<a href="#">Fashion</a>
+											<a href="#">kd83kdi93</a>
 										</li>
 										<li>
-											<a href="#">Art</a>
-										</li>
-										<li>
-											<a href="#">Design</a>
-										</li>
-										<li>
-											<a href="#">Featured</a>
-										</li>
-										<li>
-											<a href="#">Graphics</a>
-										</li>
-										<li>
-											<a href="#">Peoples</a>
-										</li>
-										<li>
-											<a href="#">Uncategorized</a>
+											<a href="#">BIKLI</a>
 										</li>
 									</ul>
 								</div>
@@ -243,6 +142,78 @@
 		<script src="js/blogapp/bootstrap.min.js"></script>
 		<script src="js/blogapp/jquery.bxslider.min.js"></script>
 		<script src="js/blogapp/mooz.scripts.min.js"></script>
+		<script src="js/blogapp/vue.js"></script>
+		<script src="js/interface/blogInterface.js"></script>
+		<script src="js/blogapp/url.js"></script>
+		<script src="js/interface/getParm.js"></script>
+		<script>
+			let v = new Vue({
+				el: '#index',
+				data: {
+					blogUser: {},
+					categories: {},
+					blogContents: {},
+					userName: '',
+					pageNum: 0,
+					maxPageNum: 0,
+					requestId: 0
+				},
+				methods: {
+					getPrePage: function() {
+						if(v.pageNum - 1 >= 0) {
+							v.pageNum = v.pageNum - 1;
+							let data = {
+								id: v.requestId,
+								pageNum: v.pageNum
+							}
+							getByPage(data, function(res) {
+								refreshData(res)
+							})
+						}
+					},
+					getNextPage: function() {
+						if(v.pageNum + 1 < v.maxPageNum) {
+							v.pageNum = v.pageNum + 1;
+							let data = {
+								id: v.requestId,
+								pageNum: v.pageNum
+							}
+							getByPage(data, function(res) {
+								refreshData(res)
+							})
+						}
+					}
+				}
+			})
+
+			function refreshData(res) {
+				if(res.success == 1) {
+					v.blogContents = res.data;
+				} else {
+					alert(res.data);
+				}
+				window.scrollTo(0, 0);
+			}
+
+			$(document).ready(function() {
+				v.requestId = parseInt(getQueryString('id'));
+				let data = {
+					id: v.requestId
+				}
+				index(data, function(res) {
+					if(res.success == 1) {
+						v.blogUser = res.data.blogUser;
+						v.categories = res.data.categories;
+						v.blogContents = res.data.blogContents;
+						v.userName = res.data.userName;
+						v.pageNum = res.data.pageNum;
+						v.maxPageNum = res.data.maxPageNum;
+					} else {
+						$("#body").html('<p>数据不存在</p>');
+					}
+				})
+			})
+		</script>
 	</body>
 
 </html>

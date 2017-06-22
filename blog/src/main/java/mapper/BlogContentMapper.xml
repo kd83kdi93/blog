@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="mapper.BlogContentMapper">  
+
+    
+    <select id="getLastPostByUserId" resultType="domain.BlogContent">
+    		select * from tb_blogcontent where userid = #{userId} limit 5
+    </select>
+   
+   	<select id="getCategoryByUserId" resultType="String">
+   			select blogcategory from tb_blogcontent where userid = #{userId} group by blogcategory
+   	</select>
+   	
+	<select id="getBlogContentByPage" resultType="domain.BlogContent">
+			select * from tb_blogcontent where userid = #{param1} limit #{param2},5
+	</select>
+	
+	<select id="getMaxPageNum" resultType="int">
+		select count(*) from tb_blogcontent where userid = #{userId}
+	</select>
+</mapper>  

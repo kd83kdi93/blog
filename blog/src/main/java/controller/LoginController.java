@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import domain.User;
+import service.BlogService;
 import service.UserService;
 import util.CheckAndResult;
 import util.ProClass;
@@ -19,6 +20,7 @@ import util.Result;
 public class LoginController {
 	@Autowired
 	private UserService userService;
+	
 
 	@Autowired
 	private ProClass proClass;

@@ -8,4 +8,5 @@ public interface UserMapper {
 	void setActivited(User u);
 	void setPassword(User u);
 	User getByName(String name);
+	String getNameById(int id);
 }

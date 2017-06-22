@@ -9,15 +9,18 @@ import org.springframework.stereotype.Service;
 
 import domain.User;
 import mapper.UserMapper;
+import service.BlogService;
 import service.UserService;
 import util.Email;
-import util.Result;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private BlogService blogService;
 
 	@Override
 	public User find(String name, String password) {
@@ -36,12 +39,12 @@ public class UserServiceImpl implements UserService {
 		u.setAuthcode(authCode);
 		u.setPassword(password);
 		try {
+			userMapper.add(u);
 			String text = "http://localhost:8080/blog/user/activited?name=" + name + "&authCode=" + authCode;
 			Email.send(name, "’Àªßº§ªÓ", text);
+			blogService.initBlogUserInfo(u.getId());
 		} catch (MessagingException e) {
 			e.printStackTrace();
-		} finally {
-			userMapper.add(u);
 		}
 	}
 
