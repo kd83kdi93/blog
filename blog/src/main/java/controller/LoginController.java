@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import domain.User;
+import responsestring.ResponseString;
 import service.BlogService;
 import service.UserService;
 import util.CheckAndResult;
@@ -33,7 +34,7 @@ public class LoginController {
 			if (u == null) {
 				userService.register(name, password);
 			} else {
-				result.setStateAndData(false, "用户名已存在");
+				result.setStateAndData(false, ResponseString.userNameErr);
 			}
 		}
 		return result;
@@ -48,11 +49,11 @@ public class LoginController {
 			u = userService.find(name, password);
 			do {
 				if (u == null) {
-					result.setStateAndData(false, "用户名或密码错误");
+					result.setStateAndData(false, ResponseString.userOrPassErr);
 					break;
 				}
 				if (u.getActivited() != 1) {
-					result.setStateAndData(false, "用户还未激活");
+					result.setStateAndData(false, ResponseString.userActiviteErr);
 				} else {
 					result.setData(u);
 					session.setAttribute("user", u);
@@ -85,9 +86,9 @@ public class LoginController {
 		if (result.isSuccess()) {
 			boolean isChanged = userService.resetPassword(name);
 			if (isChanged) {
-				result.setStateAndData(true, "密码已经重置成功,请查看邮箱");
+				result.setStateAndData(true, ResponseString.passResetSuccess);
 			} else {
-				result.setStateAndData(false, "密码重置失败");
+				result.setStateAndData(false, ResponseString.passResetErr);
 			}
 		}
 		return result;

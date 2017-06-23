@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import domain.BlogContent;
 import dto.BlogIndexDto;
+import dto.BlogPostDto;
+import responsestring.ResponseString;
 import service.BlogService;
 import util.Result;
 
@@ -39,19 +41,32 @@ public class BlogController {
 		List<BlogContent> blogContents = null;
 		do {
 			if (pageNum < 0) {
-				result.setData("Ò³ÂëºÅ²ÎÊý´íÎó");
+				result.setData(ResponseString.pageNumErr);
 				break;
 			}
 			blogContents = blogService.getBlogContentByPage(id, pageNum);
 			boolean nullFlag = blogContents == null;
 			boolean emptyFlag = blogContents.isEmpty();
 			if (nullFlag || emptyFlag) {
-				result.setData("ÇëÇóÊý¾ÝÊ§°Ü");
+				result.setData(ResponseString.requestDataErr);
 				break;
 			}
 			result.setSuccess(true);
 			result.setData(blogContents);
 		} while (false);
+		return result;
+	}
+	
+	@RequestMapping("/getBlog")
+	public Object getBlog(int blogId) {
+		Result result = new Result();
+		BlogPostDto blogPostDto = blogService.getBlog(blogId);
+		if (blogPostDto.getContent() != null) {
+			result.setSuccess(true);
+			result.setData(blogPostDto);
+		} else {
+			result.setData(ResponseString.requestDataErr);
+		}
 		return result;
 	}
 }

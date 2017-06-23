@@ -52,8 +52,8 @@
 	<script type="text/javascript" src="js/blogapp/vue.js"></script>
 	<script type="text/javascript" src="js/blogapp/url.js"></script>
 	<script type="text/javascript" src="js/interface/userInterface.js"></script>
+	<script src="js/interface/checkUserAccount.js"></script>
 	<script>
-
 		function checkParm(name, password, confirmPassword) {
 			let result = null;
 			let nameFlag = name != '';
@@ -100,8 +100,11 @@
 				}
 			}
 		})
+		$(document).ready(function() {
+			getWho(function(res) {});
+		})
 	</script>
-	<script src="js/interface/checkUserAccount.js"></script>
+
 </body>
 
 </html>

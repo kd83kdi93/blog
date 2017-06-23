@@ -9,4 +9,5 @@ public interface BlogContentMapper {
 	List<String> getCategoryByUserId(int userId);
 	List<BlogContent> getBlogContentByPage(int userId, int pageStartNum);
 	int getMaxPageNum(int userId);
+	BlogContent getBlogContent(int blogId);
 }

@@ -16,7 +16,7 @@
 		<link href="css/blogapp/jquery.bxslider.css" rel="stylesheet">
 		<link href="css/blogapp/style.css" rel="stylesheet">
 	</head>
-	<body>
+	<body id="body">
 		<!-- Navigation -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
@@ -31,7 +31,7 @@
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li>
-							<a href="blogindex.html">Home</a>
+							<a href="" id="homeNV">Home</a>
 						</li>
 						<li>
 							<a href="about.html">All Posts</a>
@@ -43,26 +43,18 @@
 		</nav>
 
 		<div class="container">
-		<section>
+			<br><br><br><br>
+		<section id="post">
 			<div class="row">
 				<div class="col-md-8">
 					<article class="blog-post">
 						<div class="blog-post-image">
-							<a href="post.html"><img src="images/750x500-1.jpg" alt=""></a>
+							<a><img v-bind:src="blogContent.blogPicture" alt=""></a>
 						</div>
 						<div class="blog-post-body">
-							<h2><a href="post.html">Vintage-Inspired Finds for Your Home</a></h2>
-							<div class="post-meta"><span>by <a href="#">Jamie Mooze</a></span>/<span><i class="fa fa-clock-o"></i>March 14, 2015</span>/<span><i class="fa fa-comment-o"></i> <a href="#">343</a></span></div>
-							<div class="blog-post-text">
-
-								<p>A newly-developed mathematical method can detect geometric structure in neural activity in the brain. “Previously, in order to understand this structure, scientists needed to relate neural activity to some specific external stimulus,” said Vladimir Itskov, associate professor of mathematics at Penn State University. “Our method is the first to be able to reveal this structure without our knowing an external stimulus ahead of time. We’ve now shown that our new method will allow us to explore the organizational structure of neurons without knowing their function in advance.”</p>
-
-								<p>“The traditional methods used by researchers to analyze the relationship between the activities of neurons were adopted from physics,” said Carina Curto, associate professor of mathematics at Penn State, “but neuroscience data doesn’t necessarily play by the same rules as data from physics, so we need new tools. Our method is a first step toward developing a new mathematical toolkit to uncover the structure of neural circuits with unknown function in the brain.”</p>
-
-								<h3>Math reveals structure in neural activity in the brain</h3>
-								<p>The method — clique topology — was developed by an interdisciplinary team of researchers at Penn State, the University of Pennsylvania, the Howard Hughes Medical Institute, and the University of Nebraska-Lincoln. The method is described in a paper that will be posted in the early online edition of the journal Proceedings of the National Academy of Sciences during the week ending October 23, 2015.</p>
-
-								<p>“We have adopted approaches from the field of algebraic topology that previously had been used primarily in the domain of pure mathematics and have applied them to experimental data on the activity of place cells — specialized neurons in the part of the brain called the hippocampus that sense the position of an animal in its environment,” said Curto.</p>
+							<h2><a>{{blogContent.blogTitle}}</a></h2>
+							<div class="post-meta"><span>by <a>{{userName}}</a></span>/<span><i class="fa fa-clock-o"></i>{{blogContent.time}}</span>/<span><i class="fa fa-comment-o"></i> <a>{{blogContent.recallNums}}</a></span></div>
+							<div class="blog-post-text" v-html="blogContent.blogContent">
 							</div>
 						</div>
 					</article>
@@ -73,68 +65,23 @@
 					<div class="sidebar-widget">
 						<h3 class="sidebar-title">About Me</h3>
 						<div class="widget-container widget-about">
-							<a href="post.html"><img src="images/blogapp/author.jpg" alt=""></a>
-							<h4>Jamie Mooz</h4>
-							<div class="author-title">Designer</div>
-							<p>While everyone’s eyes are glued to the runway, it’s hard to ignore that there are major fashion moments on the front row too.</p>
+							<a><img v-bind:src="blogUser.userIcon" alt="" height="420" width="640"></a>
+							<h4>{{userName}}</h4>
+							<p>{{blogUser.userDescription}}</p>
 						</div>
 					</div>
 					<!-- sidebar-widget -->
 					<div class="sidebar-widget">
 						<h3 class="sidebar-title">Featured Posts</h3>
 						<div class="widget-container">
-							<article class="widget-post">
+							<article class="widget-post" v-for="item in lastBlogContents">
 								<div class="post-image">
-									<a href="post.html"><img src="images/blogapp/90x60-1.jpg" alt=""></a>
+									<a v-bind:href="'post.html?blogId='+item.id"><img v-bind:src="item.blogPicture" alt="" height="60" width="90"></a>
 								</div>
 								<div class="post-body">
-									<h2><a href="post.html">The State of the Word 2014</a></h2>
+									<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
 									<div class="post-meta">
-										<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
-									</div>
-								</div>
-							</article>
-							<article class="widget-post">
-								<div class="post-image">
-									<a href="post.html"><img src="images/blogapp/90x60-2.jpg" alt=""></a>
-								</div>
-								<div class="post-body">
-									<h2><a href="post.html">Why The Muppets Needs to Channel 30 Rock</a></h2>
-									<div class="post-meta">
-										<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
-									</div>
-								</div>
-							</article>
-							<article class="widget-post">
-								<div class="post-image">
-									<a href="post.html"><img src="images/blogapp/90x60-3.jpg" alt=""></a>
-								</div>
-								<div class="post-body">
-									<h2><a href="post.html">The State of the Word 2014</a></h2>
-									<div class="post-meta">
-										<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
-									</div>
-								</div>
-							</article>
-							<article class="widget-post">
-								<div class="post-image">
-									<a href="post.html"><img src="images/blogapp/90x60-4.jpg" alt=""></a>
-								</div>
-								<div class="post-body">
-									<h2><a href="post.html">Vintage-Inspired Finds for Your Home</a></h2>
-									<div class="post-meta">
-										<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
-									</div>
-								</div>
-							</article>
-							<article class="widget-post">
-								<div class="post-image">
-									<a href="post.html"><img src="images/blogapp/90x60-5.jpg" alt=""></a>
-								</div>
-								<div class="post-body">
-									<h2><a href="post.html">The State of the Word 2014</a></h2>
-									<div class="post-meta">
-										<span><i class="fa fa-clock-o"></i> 2. august 2015</span> <span><a href="post.html"><i class="fa fa-comment-o"></i> 23</a></span>
+										<span><i class="fa fa-clock-o"></i> {{item.time}}</span> <span><a><i class="fa fa-comment-o"></i> {{item.recallNums}}</a></span>
 									</div>
 								</div>
 							</article>
@@ -145,13 +92,7 @@
 						<h3 class="sidebar-title">Categories</h3>
 						<div class="widget-container">
 							<ul>
-								<li><a href="#">Fashion</a></li>
-								<li><a href="#">Art</a></li>
-								<li><a href="#">Design</a></li>
-								<li><a href="#">Featured</a></li>
-								<li><a href="#">Graphics</a></li>
-								<li><a href="#">Peoples</a></li>
-								<li><a href="#">Uncategorized</a></li>
+								<li v-for="item in categories"><a href="#">{{item}}</a></li>
 							</ul>
 						</div>
 					</div>
@@ -169,5 +110,42 @@
 		<script src="js/blogapp/bootstrap.min.js"></script>
 		<script src="js/blogapp/jquery.bxslider.min.js"></script>
 		<script src="js/blogapp/mooz.scripts.min.js"></script>
+		<script src="js/blogapp/vue.js"></script>
+		<script src="js/blogapp/url.js"></script>
+		<script src="js/interface/getParm.js"></script>
+		<script src="js/interface/blogInterface.js"></script>
+		<script>
+			let v = new Vue({
+				el:"#post",
+				data:{
+					requestBlogId: 0,
+					blogUser: {},
+					categories: {},
+					lastBlogContents: {},
+					blogContent: {},
+					userName: ''
+				},
+			})
+			
+			$(document).ready(function(){
+				v.requestBlogId = parseInt(getQueryString('blogId'));
+				let data = {
+					blogId: v.requestBlogId
+				}
+				getBlog(data, function(res){
+					if (res.success == 1) {
+						v.blogUser = res.data.blogUser;
+						v.categories = res.data.categories;
+						v.lastBlogContents = res.data.featuredPosts;
+						v.blogContent = res.data.content;
+						v.userName = res.data.userName;
+						$('#homeNV').attr('href','blogindex.html?id='+res.data.blogUser.userId);
+					} else {
+						$("#body").html('<p>数据不存在</p>');
+					}
+				})
+			})
+			
+		</script>
 	</body>
 </html>

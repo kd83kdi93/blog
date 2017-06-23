@@ -42,7 +42,7 @@
 			<div class="content clearfix">
 
 				<div class="items">
-					<a class="box" href="http://localhost/blogindex.html" style="background: #00a9ec;"><span>博客</span><img class="icon" src="images/applicationguide/tasks.png" alt="进入博客应用" /></a>
+					<a id="blog" class="box" href="" style="background: #00a9ec;"><span>博客</span><img class="icon" src="images/applicationguide/tasks.png" alt="进入博客应用" /></a>
 					<a class="box" href="http://localhost/register.html" style="background: #43b51f;"><span>创建一个新用户</span><img class="icon" src="images/applicationguide/phone.png" alt="创建一个新账户" /></a>
 					<a class="box" href="http://localhost/console.html" style="background: #f874a4;"><span>控制台</span><img class="icon" src="images/applicationguide/dribbble.png" alt="进入控制台" /></a>
 					<a class="box" href="#" style="background: #6b6b6b;"><span>后台控制</span><img class="icon" src="images/applicationguide/settings.png" alt="进入后台管理" /></a>
@@ -54,11 +54,13 @@
 		<script src="js/blogapp/vue.js"></script>
 		<script src="js/blogapp/url.js"></script>
 		<script src="js/interface/userInterface.js"></script>
+		<script src="js/interface/checkUserAccount.js"></script>
 		<script>
 			let v = new Vue({
 				el: '#application',
 				data: {
-					userName: ''
+					userName: '',
+					userId: 0
 				},
 				methods: {
 					logOut: function() {
@@ -70,8 +72,14 @@
 					}
 				}
 			})
+
+			$(document).ready(function() {
+				getWho(function(res) {
+					$("#blog").attr("href", "blogindex.html?id=" + res.data.id);
+				});
+			})
 		</script>
-		<script src="js/interface/checkUserAccount.js"></script>
+
 	</body>
 
 </html>

@@ -9,6 +9,7 @@ import domain.BlogContent;
 import domain.BlogUser;
 import domain.User;
 import dto.BlogIndexDto;
+import dto.BlogPostDto;
 import mapper.BlogContentMapper;
 import mapper.BlogUserMapper;
 import mapper.UserMapper;
@@ -72,6 +73,23 @@ public class BlogServiceImpl implements BlogService {
 		int pageStartNum = pageNum * 5;
 		List<BlogContent> blogContents = blogContentMapper.getBlogContentByPage(userId, pageStartNum);
 		return blogContents;
+	}
+
+	@Override
+	public BlogPostDto getBlog(int blogId) {
+		BlogContent blogContent = blogContentMapper.getBlogContent(blogId);
+		int userId = blogContent.getUserId();
+		String userName = userMapper.getNameById(userId);
+		List<BlogContent> blogContents = blogContentMapper.getLastPostByUserId(userId);
+		List<String> categories = blogContentMapper.getCategoryByUserId(userId);
+		BlogUser blogUser = blogUserMapper.getByUserId(userId);
+		BlogPostDto blogPostDto = new BlogPostDto();
+		blogPostDto.setBlogUser(blogUser);
+		blogPostDto.setCategories(categories);
+		blogPostDto.setContent(blogContent);
+		blogPostDto.setFeaturedPosts(blogContents);
+		blogPostDto.setUserName(userName);
+		return blogPostDto;
 	}
 
 }

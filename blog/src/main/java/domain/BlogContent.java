@@ -19,6 +19,7 @@ public class BlogContent implements Serializable{
 	private String blogText;
 	private Date time;
 	private String blogPicture;
+	private String blogContent;
 	@JsonIgnore
 	private int userId;
 	public int getId() {
@@ -62,6 +63,13 @@ public class BlogContent implements Serializable{
 	}
 	public void setBlogPicture(String blogPicture) {
 		this.blogPicture = blogPicture;
+	}
+	
+	public String getBlogContent() {
+		return blogContent;
+	}
+	public void setBlogContent(String blogContent) {
+		this.blogContent = blogContent;
 	}
 	public int getUserId() {
 		return userId;

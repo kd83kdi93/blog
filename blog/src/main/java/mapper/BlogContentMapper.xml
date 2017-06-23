@@ -18,4 +18,8 @@
 	<select id="getMaxPageNum" resultType="int">
 		select count(*) from tb_blogcontent where userid = #{userId}
 	</select>
+	
+	<select id="getBlogContent" resultType="domain.BlogContent">
+		select * from tb_blogcontent where id = #{blogId} limit 1
+	</select>
 </mapper>  

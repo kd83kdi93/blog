@@ -13,7 +13,6 @@ public class BlogUser implements Serializable {
 	private int id;
 	private String userIcon;
 	private String userDescription;
-	@JsonIgnore
 	private int userId;
 	public int getId() {
 		return id;
