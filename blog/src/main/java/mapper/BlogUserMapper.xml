@@ -11,5 +11,8 @@
    		select * from tb_bloguser where userid = #{userId}
    	</select>
    	
+   	<update id="update">
+   		update tb_bloguser set usericon=#{userIcon},userdescription=#{userDescription} where userid = #{userId}
+   	</update>
 	
 </mapper>  

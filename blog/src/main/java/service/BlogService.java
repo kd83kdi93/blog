@@ -2,8 +2,11 @@ package service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import domain.BlogContent;
 import dto.BlogIndexDto;
+import dto.BlogPersonInfoDto;
 import dto.BlogPostDto;
 
 public interface BlogService {
@@ -12,4 +15,6 @@ public interface BlogService {
 	BlogIndexDto getIndexPageInfoByUserId(int userId);
 	List<BlogContent> getBlogContentByPage(int userId, int pageNum);
 	BlogPostDto getBlog(int blogId);
+	BlogPersonInfoDto changeBlogUserInfo(String name, MultipartFile file, String description);
+	BlogPersonInfoDto getBlogUser(String name);
 }

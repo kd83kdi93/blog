@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="">
+
+	<title>Who are You</title>
+
+	<!--==== bootstrap ====-->
+	<link href="css/blogapp/bootstrap.min.css" rel="stylesheet">
+	<!--==== font-awesome ====-->
+	<link href="css/blogapp/font-awesome.min.css" rel="stylesheet">
+	<!--==== owl-carousel ====-->
+	<link href="css/blogapp/owl.carousel.css" rel="stylesheet">
+	<!--==== magnific-popup ====-->
+	<link href="css/blogapp/magnific-popup.css" rel="stylesheet">
+	<!--==== animate css ====-->
+	<link href="css/blogapp/animate.min.css" rel="stylesheet">
+
+	<!--==== style css ====-->
+	<link href="css/blogapp/style_person.css" rel="stylesheet">
+	<!--==== responsive css ====-->
+	<link href="css/blogapp/responsive.css" rel="stylesheet">
+
+	<!--==== jquery ====-->
+	<script src="js/blogapp/jquery-2.1.4.min.js"></script>
+
+	<!--[if lt IE 9]>
+<script src="js/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="js/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body id="body">
+
+	<!--===== Preloader ====-->
+	<div class="preloader">
+		<div class="spinner">
+			<div class="double-bounce1"></div>
+			<div class="double-bounce2"></div>
+		</div>
+	</div>
+
+	<!--===== HEADER AREA =====-->
+	<header class="navbar custom-navbar top-nav-collapse">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="logo">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<a id="returnBlog" href="">Return Blog</a>
+						<!--== logo ==-->
+					</div>
+				</div>
+
+				<div class="col-md-9 col-sm-9 col-xs-12">
+					<nav class="main-menu">
+						<div class="navbar-collapse collapse">
+							<ul class="nav navbar-nav">
+								<!--== manin menu ==-->
+								<li class="active smooth-scroll">
+									<a class="theme-color" href="#about">About</a>
+								</li>
+								<li class="smooth-scroll">
+									<a class="theme-color" href="#contact">Edit</a>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+
+			</div>
+
+		</div>
+	</header>
+	<!--===== END HEADER AREA ======-->
+
+	<!--=====************** ABOUT SECTION ***************=====-->
+	<div id="person">
+		<br><br><br><br>
+		<section id="about" class="about-section section-padding">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-4">
+						<div class="author-image wow fadeInLeft" data-wow-delay="0.4s">
+							<img v-bind:src="iconFile" alt="Author Image" style="position: relative;top: 37px;">
+							<!--=== author image ===-->
+						</div>
+					</div>
+
+					<div class="col-md-8">
+						<div class="about-text wow fadeInRight" data-wow-delay="0.4s">
+							<h3>Hello, that's me!</h3>
+							<p>{{description}}</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section>
+		<!--=====*********** END ABOUT SECTION **************=====-->
+
+		<br><br><br><br>
+		<!--======******************** CONTACT INFO SECTION **********************======-->
+		<section id="contact" class="contact-area section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="section-title">
+							<h2><span class="theme-color">Edit infomation for you</span> Edit</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 wow fadeInUp" data-wow-delay="0.4s">
+						<!-- Start Contact Form -->
+						<form id="contactForm" class="contact-form shake" data-toggle="validator">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<div class="controls">
+											<input v-model="userName" type="text" name="name" class="form-control" readonly>
+											<div class="help-block with-errors"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-md-10">
+									<div class="form-group">
+										<div class="">
+											修改头像<input type="file" class="form-control" name="file"></input>
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="controls">
+											<textarea v-model="description" name="description" id="message" rows="7" placeholder="description" class="form-control" required data-error="Write your description"></textarea>
+											<div class="help-block with-errors"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<a href="#about" v-on:click="save()" class="btn btn-effect theme-color"><i class="fa fa-check"></i> Save</a>
+								</div>
+							</div>
+
+						</form>
+						<!-- End Contact Form -->
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--======**************** END CONTACT INFO SECTION ********************======-->
+	</div>
+
+	<!--======******************* FOOTER SECTION ******************======-->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+					<div class="footer-text wow fadeInUp" data-wow-delay="0.4s">
+						<p>Copyright &copy; 2017.Family Blog Service.
+							<a target="_blank"></a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!--======******************* END FOOTER SECTION ***************======-->
+
+	<!--==== plugins js ====-->
+	<script src="js/blogapp/plugins.js"></script>
+	<!--==== magnific-popup-options js ====-->
+	<script src="js/blogapp/magnific-popup-options.js"></script>
+	<!--==== validator js ====-->
+	<script src="js/blogapp/validator.min.js"></script>
+	<!--==== app js ====-->
+	<script src="js/blogapp/wow-1.3.0.min.js"></script>
+	<!--==== main js ====-->
+	<script src="js/blogapp/main.js"></script>
+	<script src="js/blogapp/url.js"></script>
+	<script src="js/blogapp/vue.js"></script>
+	<script src="js/interface/blogInterface.js"></script>
+	<script src="js/interface/userInterface.js"></script>
+	<script src="js/interface/checkUserAccount.js"></script>
+	<script src="js/interface/getParm.js"></script>
+	<script>
+		let v = new Vue({
+			el: '#person',
+			data: {
+				userName: '1632399546@qq.com',
+				userId: 16,
+				iconFile: '',
+				description: ''
+			},
+			methods: {
+				save: function() {
+					let formData = new FormData($("#contactForm")[0]);
+					changeBlogUserInfo(formData, function(res) {
+						if(res.success == 1) {
+							v.iconFile = res.data.userIcon;
+							v.description = res.data.description;
+						} else {
+							alert(res.data);
+						}
+					})
+				}
+			}
+		})
+
+		$(document).ready(function() {
+			let name = getQueryString('name');
+			let data = {
+				name: name
+			}
+			getBlogUser(data, function(res) {
+				if(res.success == 1) {
+					v.iconFile = res.data.userIcon;
+					v.description = res.data.description;
+				} else {
+					$("#body").html('<p>数据不存在</p>');
+				}
+			})
+			getWho(function(res){
+				$("#returnBlog").attr("href","blogindex.html?id="+v.userId);
+			});
+
+		})
+	</script>
+</body>
+
+</html>

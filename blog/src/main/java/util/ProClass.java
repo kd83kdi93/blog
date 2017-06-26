@@ -17,6 +17,12 @@ public class ProClass {
 
 	@Value("#{prop.loginHtml}")
 	private String loginHtml;
+	
+	@Value("#{prop.userIconUrl}")
+	private String userIconUrl;
+	
+	@Value("#{prop.userIconPath}")
+	private String userIconPath;
 
 	public String getAccessUrl() {
 		return accessUrl;
@@ -50,4 +56,21 @@ public class ProClass {
 		this.loginHtml = loginHtml;
 	}
 
+	public String getUserIconUrl() {
+		return userIconUrl;
+	}
+
+	public void setUserIconUrl(String userIconUrl) {
+		this.userIconUrl = userIconUrl;
+	}
+
+	public String getUserIconPath() {
+		return userIconPath;
+	}
+
+	public void setUserIconPath(String userIconPath) {
+		this.userIconPath = userIconPath;
+	}
+	
+	
 }

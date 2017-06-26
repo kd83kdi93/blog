@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import domain.BlogContent;
 import dto.BlogIndexDto;
+import dto.BlogPersonInfoDto;
 import dto.BlogPostDto;
 import responsestring.ResponseString;
 import service.BlogService;
+import util.CheckAndResult;
 import util.Result;
 
 @Controller
@@ -56,7 +59,7 @@ public class BlogController {
 		} while (false);
 		return result;
 	}
-	
+
 	@RequestMapping("/getBlog")
 	public Object getBlog(int blogId) {
 		Result result = new Result();
@@ -69,4 +72,34 @@ public class BlogController {
 		}
 		return result;
 	}
+
+	@RequestMapping("/changeBlogUserInfo")
+	public Object changeBlogUserInfo(String name, MultipartFile file, String description) {
+		Result result = CheckAndResult.checkEmailBackResult(name);
+		boolean fileNotEmptyFlag = !file.getOriginalFilename().equals("");
+		boolean successFlag = result.isSuccess();
+		if (!fileNotEmptyFlag) {
+			result.setSuccess(false);
+			result.setData("请选择上传头像");
+		}
+		if (successFlag && fileNotEmptyFlag) {
+			BlogPersonInfoDto blogPersonInfoDto = blogService.changeBlogUserInfo(name, file, description);
+			result.setSuccess(true);
+			result.setData(blogPersonInfoDto);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/getBlogUser")
+	public Object getBlogUser(String name) {
+		Result result = CheckAndResult.checkEmailBackResult(name);
+		if (result.isSuccess()) {
+			BlogPersonInfoDto blogPersonInfoDto =blogService.getBlogUser(name);
+			result.setSuccess(true);
+			result.setData(blogPersonInfoDto);
+		}
+		return result;
+	}
+	
+
 }
