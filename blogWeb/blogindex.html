@@ -39,7 +39,7 @@
 							<a href="about.html">All Posts</a>
 						</li>
 						<li>
-							<a href="#" id ="writeblog">Write a blog</a>
+							<a href="#" id="writeblog">Write a blog</a>
 						</li>
 						<li>
 							<a href="about.html" id="aboutme">About Me</a>
@@ -64,28 +64,34 @@
 					<div class="col-md-8">
 						<article class="blog-post" v-for="item in blogContents">
 							<div class="blog-post-image">
-								<a v-bind:href="'post.html?blogId='+item.id"> <img v-bind:src="item.blogPicture" alt="" height="500" width="750"></a>
+								<template v-if="maxPageNum != 0">
+									<a v-bind:href="'post.html?blogId='+item.id"> <img v-bind:src="item.blogPicture" alt="" height="500" width="750"></a>
+								</template>
 							</div>
 							<div class="blog-post-body">
 								<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
-								<div class="post-meta"><span>by <a>{{userName}}</a></span>/<span><i class="fa fa-clock-o"></i>{{item.time}}</span>/<span><i class="fa fa-comment-o"></i> <a>{{item.recallNums}}</a></span></div>
-								<p>{{item.blogText}}</p>
-								<div class="read-more">
-									<a v-bind:href="'post.html?blogId='+item.id">Continue Reading</a>
-								</div>
+								<template v-if="maxPageNum != 0">
+									<div class="post-meta"><span>by <a>{{userName}}</a></span>/<span><i class="fa fa-clock-o"></i>{{item.time}}</span>/<span><i class="fa fa-comment-o"></i> <a>{{item.recallNums}}</a></span></div>
+									<p>{{item.blogText}}</p>
+									<div class="read-more">
+										<a v-bind:href="'post.html?blogId='+item.id">Continue Reading</a>
+									</div>
+								</template>
 							</div>
 						</article>
 
-						<div>
-							<ul class="pager">
-								<li class="previous">
-									<a v-on:click="getPrePage">&larr; Previous</a>
-								</li>
-								<li class="next">
-									<a v-on:click="getNextPage">Next &rarr;</a>
-								</li>
-							</ul>
-						</div>
+						<template v-if="maxPageNum != 0">
+							<div>
+								<ul class="pager">
+									<li class="previous">
+										<a v-on:click="getPrePage">&larr; Previous</a>
+									</li>
+									<li class="next">
+										<a v-on:click="getNextPage">Next &rarr;</a>
+									</li>
+								</ul>
+							</div>
+						</template>
 					</div>
 
 					<div class="col-md-4 sidebar-gutter">
@@ -105,18 +111,22 @@
 								<div class="widget-container">
 									<article class="widget-post" v-for="item in lastBlogContents">
 										<div class="post-image">
-											<a v-bind:href="'post.html?blogId='+item.id"><img v-bind:src="item.blogPicture" alt="" height="60" width="90"></a>
+											<template v-if="maxPageNum != 0">
+												<a v-bind:href="'post.html?blogId='+item.id"><img v-bind:src="item.blogPicture" alt="" height="60" width="90"></a>
+											</template>
 										</div>
 										<div class="post-body">
 											<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
 											<div class="post-meta">
-												<span><i class="fa fa-clock-o"></i> {{item.time}}</span> <span><a><i class="fa fa-comment-o"></i> {{item.recallNums}}</a></span>
+												<template v-if="maxPageNum != 0">
+													<span><i class="fa fa-clock-o"></i> {{item.time}}</span> <span><a><i class="fa fa-comment-o"></i> {{item.recallNums}}</a></span>
+												</template>
 											</div>
 										</div>
 									</article>
 								</div>
 							</div>
-							<!-- sidebar-widget 类别-->
+							<!-- sidebar-widget 类别
 							<div class="sidebar-widget">
 								<h3 class="sidebar-title">Categories</h3>
 								<div class="widget-container">
@@ -127,15 +137,13 @@
 									</ul>
 								</div>
 							</div>
+							-->
 							<div class="sidebar-widget">
 								<h3 class="sidebar-title">You Family</h3>
 								<div class="widget-container">
 									<ul>
-										<li>
-											<a href="#">kd83kdi93</a>
-										</li>
-										<li>
-											<a href="#">BIKLI</a>
+										<li v-for="item in family">
+											<a v-bind:href="'blogindex.html?id='+item.id">{{item.name}}</a>
 										</li>
 									</ul>
 								</div>
@@ -168,6 +176,7 @@
 					userName: '',
 					currentUser: '',
 					currentUserId: 0,
+					family: {},
 					pageNum: 0,
 					maxPageNum: 0,
 					requestId: 0
@@ -210,7 +219,7 @@
 			}
 
 			$(document).ready(function() {
-				getWho(function(res){})
+				getWho(function(res) {})
 				v.requestId = parseInt(getQueryString('id'));
 				let data = {
 					id: v.requestId
@@ -224,8 +233,9 @@
 						v.userName = res.data.userName;
 						v.pageNum = res.data.pageNum;
 						v.maxPageNum = res.data.maxPageNum;
-						$('#homeNV').attr('href','blogindex.html?id='+res.data.blogUser.userId);
-						$("#aboutme").attr('href','person.html?name='+res.data.userName);
+						v.family = res.data.family;
+						$('#homeNV').attr('href', 'blogindex.html?id=' + res.data.blogUser.userId);
+						$("#aboutme").attr('href', 'person.html?name=' + res.data.userName);
 					} else {
 						$("#body").html('<p>数据不存在</p>');
 					}

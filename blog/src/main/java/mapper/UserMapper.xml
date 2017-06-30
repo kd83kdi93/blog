@@ -20,6 +20,10 @@
    			select name from tb_user where id = #{id}
    	</select>
 	
+	<select id="getFamily" resultType="dto.Family">
+			select id,name from tb_user
+	</select>
+	
 	
 	<update id="setActivited">
 			update tb_user set activited=1 where name=#{name} and authcode=#{authcode}

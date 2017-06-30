@@ -1,6 +1,9 @@
 package mapper;
 
+import java.util.List;
+
 import domain.User;
+import dto.Family;
 
 public interface UserMapper {
 	void add(User u);
@@ -9,4 +12,5 @@ public interface UserMapper {
 	void setPassword(User u);
 	User getByName(String name);
 	String getNameById(int id);
+	List<Family> getFamily();
 }

@@ -17,6 +17,7 @@ import domain.User;
 import dto.BlogIndexDto;
 import dto.BlogPersonInfoDto;
 import dto.BlogPostDto;
+import dto.Family;
 import mapper.BlogContentMapper;
 import mapper.BlogUserMapper;
 import mapper.UserMapper;
@@ -61,14 +62,27 @@ public class BlogServiceImpl implements BlogService {
 		List<String> categories = blogContentMapper.getCategoryByUserId(userId);
 		int maxPageNum = blogContentMapper.getMaxPageNum(userId);
 		BlogUser blogUser = blogUserMapper.getByUserId(userId);
+		List<Family> family = userMapper.getFamily();
+		checkDtoFiled(blogContents, blogUser, family);
 		maxPageNum = getMaxPageNum(maxPageNum);
-		BlogIndexDto blogIndexDto = new BlogIndexDto();
-		blogIndexDto.setCategories(categories);
-		blogIndexDto.setBlogUser(blogUser);
-		blogIndexDto.setBlogContents(blogContents);
-		blogIndexDto.setUserName(userName);
-		blogIndexDto.setMaxPageNum(maxPageNum);
+		BlogIndexDto blogIndexDto = new BlogIndexDto(blogContents, categories, family, blogUser, userName, maxPageNum);
 		return blogIndexDto;
+	}
+
+	private void checkDtoFiled(List<BlogContent> blogContents, BlogUser blogUser, List<Family> family) {
+			if (blogUser == null) {
+				return;
+			}
+			if (blogContents.isEmpty()) {
+				BlogContent blogContent = new BlogContent();
+				blogContent.setBlogTitle("没有数据");
+				blogContents.add(blogContent);
+			}
+			if (family.isEmpty()) {
+				Family f = new Family();
+				f.setId(-1);
+				f.setName("没有数据");
+			}
 	}
 
 	public int getMaxPageNum(int maxPageNum) {
@@ -109,8 +123,12 @@ public class BlogServiceImpl implements BlogService {
 		BlogPersonInfoDto result = new BlogPersonInfoDto();
 		User user = userMapper.getByName(name);
 		if (user != null) {
+			BlogUser blogUser = blogUserMapper.getByUserId(user.getId());
+			if (!blogUser.getUserIcon().equals("")) {
+				deleteOldUserIcon(blogUser.getUserIcon());
+			}
 			String url = createFileAndWrite(file, user);
-			BlogUser blogUser = new BlogUser();
+			blogUser = new BlogUser();
 			blogUser.setUserIcon(url);
 			if (description.equals("")) {
 				description = DefaultMessage.noDescription;
@@ -124,14 +142,20 @@ public class BlogServiceImpl implements BlogService {
 		return result;
 	}
 
+	private void deleteOldUserIcon(String userIcon) {
+		String[] buf = userIcon.split("/");
+		String path = proClass.getUserIconUrl()+"/"+buf[buf.length-1];
+		File file = new File(path);
+		if (file.exists()) {
+			file.delete();
+		}
+	}
+
 	private String createFileAndWrite(MultipartFile file, User user) {
 		StringBuilder sb = new StringBuilder(proClass.getUserIconUrl());
 		sb.append("\\");
-		String fileName = user.getName()+
-				          "-"+
-				          UUID.randomUUID().toString().substring(0, 4)+
-				          "."+
-				          file.getOriginalFilename().split("\\.")[1];
+		String fileName = user.getName() + "-" + UUID.randomUUID().toString().substring(0, 4) + "."
+				+ file.getOriginalFilename().split("\\.")[1];
 		sb.append(fileName);
 		String url = sb.toString();
 		File tmpFile = new File(url);
@@ -147,7 +171,7 @@ public class BlogServiceImpl implements BlogService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return proClass.getUserIconPath()+fileName;
+		return proClass.getUserIconPath() + fileName;
 	}
 
 	@Override
@@ -169,6 +193,12 @@ public class BlogServiceImpl implements BlogService {
 			result.setUserId(user.getId());
 		} while (false);
 		return result;
+	}
+
+	@Override
+	public List<Family> getFamily() {
+		List<Family> family = userMapper.getFamily();
+		return family;
 	}
 
 }

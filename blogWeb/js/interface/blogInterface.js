@@ -18,3 +18,7 @@ function getBlogUser(data,successFun) {
 function changeBlogUserInfo(fromData,successFun) {
 	sendFileAJAX('/blogapi/changeBlogUserInfo',fromData,successFun);
 }
+
+function getFamily(successFun) {
+	sendAJAX('get','/blogapi/getFamily',null,successFun);
+}

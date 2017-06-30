@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,6 +17,7 @@
 		<link href="css/blogapp/jquery.bxslider.css" rel="stylesheet">
 		<link href="css/blogapp/style.css" rel="stylesheet">
 	</head>
+
 	<body id="body">
 		<!-- Navigation -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -36,6 +38,15 @@
 						<li>
 							<a href="about.html">All Posts</a>
 						</li>
+						<li>
+							<a href="#" id ="writeblog">Write a blog</a>
+						</li>
+						<li>
+							<a href="about.html" id="aboutme">About Me</a>
+						</li>
+						<li>
+							<a href="applicationguide.html">Return Application Guide</a>
+						</li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
@@ -44,64 +55,68 @@
 
 		<div class="container">
 			<br><br><br><br>
-		<section id="post">
-			<div class="row">
-				<div class="col-md-8">
-					<article class="blog-post">
-						<div class="blog-post-image">
-							<a><img v-bind:src="blogContent.blogPicture" alt=""></a>
-						</div>
-						<div class="blog-post-body">
-							<h2><a>{{blogContent.blogTitle}}</a></h2>
-							<div class="post-meta"><span>by <a>{{userName}}</a></span>/<span><i class="fa fa-clock-o"></i>{{blogContent.time}}</span>/<span><i class="fa fa-comment-o"></i> <a>{{blogContent.recallNums}}</a></span></div>
-							<div class="blog-post-text" v-html="blogContent.blogContent">
+			<section id="post">
+				<div class="row">
+					<div class="col-md-8">
+						<article class="blog-post">
+							<div class="blog-post-image">
+								<a><img v-bind:src="blogContent.blogPicture" alt=""></a>
 							</div>
-						</div>
-					</article>
-				</div>
-				<div class="col-md-4 sidebar-gutter">
-					<aside>
-					<!-- sidebar-widget -->
-					<div class="sidebar-widget">
-						<h3 class="sidebar-title">About Me</h3>
-						<div class="widget-container widget-about">
-							<a><img v-bind:src="blogUser.userIcon" alt="" height="420" width="640"></a>
-							<h4><a v-bind:href="'person.html?name='+userName">{{userName}}</a></h4>
-							<p>{{blogUser.userDescription}}</p>
-						</div>
-					</div>
-					<!-- sidebar-widget -->
-					<div class="sidebar-widget">
-						<h3 class="sidebar-title">Featured Posts</h3>
-						<div class="widget-container">
-							<article class="widget-post" v-for="item in lastBlogContents">
-								<div class="post-image">
-									<a v-bind:href="'post.html?blogId='+item.id"><img v-bind:src="item.blogPicture" alt="" height="60" width="90"></a>
+							<div class="blog-post-body">
+								<h2><a>{{blogContent.blogTitle}}</a></h2>
+								<div class="post-meta"><span>by <a>{{userName}}</a></span>/<span><i class="fa fa-clock-o"></i>{{blogContent.time}}</span>/<span><i class="fa fa-comment-o"></i> <a>{{blogContent.recallNums}}</a></span></div>
+								<div class="blog-post-text" v-html="blogContent.blogContent">
 								</div>
-								<div class="post-body">
-									<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
-									<div class="post-meta">
-										<span><i class="fa fa-clock-o"></i> {{item.time}}</span> <span><a><i class="fa fa-comment-o"></i> {{item.recallNums}}</a></span>
-									</div>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-4 sidebar-gutter">
+						<aside>
+							<!-- sidebar-widget -->
+							<div class="sidebar-widget">
+								<h3 class="sidebar-title">About Me</h3>
+								<div class="widget-container widget-about">
+									<a><img v-bind:src="blogUser.userIcon" alt="" height="420" width="640"></a>
+									<h4><a v-bind:href="'person.html?name='+userName">{{userName}}</a></h4>
+									<p>{{blogUser.userDescription}}</p>
 								</div>
-							</article>
-						</div>
-					</div>
-					<!-- sidebar-widget -->
-					<div class="sidebar-widget">
-						<h3 class="sidebar-title">Categories</h3>
-						<div class="widget-container">
-							<ul>
-								<li v-for="item in categories"><a href="#">{{item}}</a></li>
-							</ul>
-						</div>
-					</div>
+							</div>
+							<!-- sidebar-widget -->
+							<div class="sidebar-widget">
+								<h3 class="sidebar-title">Featured Posts</h3>
+								<div class="widget-container">
+									<article class="widget-post" v-for="item in lastBlogContents">
+										<div class="post-image">
+											<a v-bind:href="'post.html?blogId='+item.id"><img v-bind:src="item.blogPicture" alt="" height="60" width="90"></a>
+										</div>
+										<div class="post-body">
+											<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
+											<div class="post-meta">
+												<span><i class="fa fa-clock-o"></i> {{item.time}}</span> <span><a><i class="fa fa-comment-o"></i> {{item.recallNums}}</a></span>
+											</div>
+										</div>
+									</article>
+								</div>
+							</div>
+							<!-- sidebar-widget 
+							<div class="sidebar-widget">
+								<h3 class="sidebar-title">Categories</h3>
+								<div class="widget-container">
+									<ul>
+										<li v-for="item in categories">
+											<a href="#">{{item}}</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							-->
 					</div>
 					</aside>
 				</div>
-			</div>
+		</div>
 		</section>
-		</div><!-- /.container -->
+		</div>
+		<!-- /.container -->
 
 		<!-- Bootstrap core JavaScript
 			================================================== -->
@@ -116,36 +131,37 @@
 		<script src="js/interface/blogInterface.js"></script>
 		<script>
 			let v = new Vue({
-				el:"#post",
-				data:{
+				el: "#post",
+				data: {
 					requestBlogId: 0,
 					blogUser: {},
 					categories: {},
 					lastBlogContents: {},
 					blogContent: {},
-					userName: ''
+					userName: '',
 				},
 			})
-			
-			$(document).ready(function(){
+
+			$(document).ready(function() {
 				v.requestBlogId = parseInt(getQueryString('blogId'));
 				let data = {
 					blogId: v.requestBlogId
 				}
-				getBlog(data, function(res){
-					if (res.success == 1) {
+				getBlog(data, function(res) {
+					if(res.success == 1) {
 						v.blogUser = res.data.blogUser;
 						v.categories = res.data.categories;
 						v.lastBlogContents = res.data.featuredPosts;
 						v.blogContent = res.data.content;
 						v.userName = res.data.userName;
-						$('#homeNV').attr('href','blogindex.html?id='+res.data.blogUser.userId);
+						$('#homeNV').attr('href', 'blogindex.html?id=' + res.data.blogUser.userId);
+						$("#aboutme").attr('href','person.html?name='+res.data.userName);
 					} else {
 						$("#body").html('<p>数据不存在</p>');
 					}
 				})
 			})
-			
 		</script>
 	</body>
+
 </html>

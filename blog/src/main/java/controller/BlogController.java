@@ -12,6 +12,7 @@ import domain.BlogContent;
 import dto.BlogIndexDto;
 import dto.BlogPersonInfoDto;
 import dto.BlogPostDto;
+import dto.Family;
 import responsestring.ResponseString;
 import service.BlogService;
 import util.CheckAndResult;
@@ -30,10 +31,8 @@ public class BlogController {
 		if ((id != null) && (!id.equals("NaN"))) {
 			int newid = Integer.parseInt(id);
 			BlogIndexDto blogIndexDto = blogService.getIndexPageInfoByUserId(newid);
-			boolean contentsFlag = !blogIndexDto.getBlogContents().isEmpty();
-			boolean categoriesFlag = !blogIndexDto.getCategories().isEmpty();
 			boolean blogUserFlag = blogIndexDto.getBlogUser() != null;
-			if (contentsFlag || categoriesFlag || blogUserFlag) {
+			if (blogUserFlag) {
 				result.setSuccess(true);
 				result.setData(blogIndexDto);
 			}
@@ -105,6 +104,19 @@ public class BlogController {
 		} else {
 			result.setSuccess(true);
 			result.setData(blogPersonInfoDto);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/getFamily")
+	public Object getFamily() {
+		Result result = new Result();
+		List<Family> family = blogService.getFamily();
+		boolean nullFlag = family == null;
+		boolean emptyFlag = family.isEmpty();
+		if (!nullFlag && !emptyFlag) {
+			result.setSuccess(true);
+			result.setData(family);
 		}
 		return result;
 	}

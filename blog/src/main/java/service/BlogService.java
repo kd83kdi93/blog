@@ -8,6 +8,7 @@ import domain.BlogContent;
 import dto.BlogIndexDto;
 import dto.BlogPersonInfoDto;
 import dto.BlogPostDto;
+import dto.Family;
 
 public interface BlogService {
 	void initBlogUserInfo(int userId);
@@ -17,4 +18,5 @@ public interface BlogService {
 	BlogPostDto getBlog(int blogId);
 	BlogPersonInfoDto changeBlogUserInfo(String name, MultipartFile file, String description);
 	BlogPersonInfoDto getBlogUser(String name);
+	List<Family> getFamily();
 }
