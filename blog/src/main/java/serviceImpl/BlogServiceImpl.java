@@ -166,6 +166,7 @@ public class BlogServiceImpl implements BlogService {
 			result = new BlogPersonInfoDto();
 			result.setDescription(blogUser.getUserDescription());
 			result.setUserIcon(blogUser.getUserIcon());
+			result.setUserId(user.getId());
 		} while (false);
 		return result;
 	}

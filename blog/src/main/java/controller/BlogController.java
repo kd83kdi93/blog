@@ -25,15 +25,18 @@ public class BlogController {
 	private BlogService blogService;
 
 	@RequestMapping("/index")
-	public Object index(int id) {
+	public Object index(String id) {
 		Result result = new Result();
-		BlogIndexDto blogIndexDto = blogService.getIndexPageInfoByUserId(id);
-		boolean contentsFlag = !blogIndexDto.getBlogContents().isEmpty();
-		boolean categoriesFlag = !blogIndexDto.getCategories().isEmpty();
-		boolean blogUserFlag = blogIndexDto.getBlogUser() != null;
-		if (contentsFlag || categoriesFlag || blogUserFlag) {
-			result.setSuccess(true);
-			result.setData(blogIndexDto);
+		if ((id != null) && (!id.equals("NaN"))) {
+			int newid = Integer.parseInt(id);
+			BlogIndexDto blogIndexDto = blogService.getIndexPageInfoByUserId(newid);
+			boolean contentsFlag = !blogIndexDto.getBlogContents().isEmpty();
+			boolean categoriesFlag = !blogIndexDto.getCategories().isEmpty();
+			boolean blogUserFlag = blogIndexDto.getBlogUser() != null;
+			if (contentsFlag || categoriesFlag || blogUserFlag) {
+				result.setSuccess(true);
+				result.setData(blogIndexDto);
+			}
 		}
 		return result;
 	}
@@ -89,17 +92,21 @@ public class BlogController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping("/getBlogUser")
 	public Object getBlogUser(String name) {
 		Result result = CheckAndResult.checkEmailBackResult(name);
+		BlogPersonInfoDto blogPersonInfoDto = null;
 		if (result.isSuccess()) {
-			BlogPersonInfoDto blogPersonInfoDto =blogService.getBlogUser(name);
+			blogPersonInfoDto = blogService.getBlogUser(name);
+		}
+		if (blogPersonInfoDto == null) {
+			result.setSuccess(false);
+		} else {
 			result.setSuccess(true);
 			result.setData(blogPersonInfoDto);
 		}
 		return result;
 	}
-	
 
 }

@@ -152,7 +152,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<div class="controls">
-											<textarea v-model="description" name="description" id="message" rows="7" placeholder="description" class="form-control" required data-error="Write your description"></textarea>
+											<textarea v-model="newDescription" name="description" id="message" rows="7" placeholder="description" class="form-control" required data-error="Write your description"></textarea>
 											<div class="help-block with-errors"></div>
 										</div>
 									</div>
@@ -212,7 +212,10 @@
 				userName: '1632399546@qq.com',
 				userId: 16,
 				iconFile: '',
-				description: ''
+				description: '',
+				currentUser: '',
+				currentUserId: 0,
+				newDescription: ''
 			},
 			methods: {
 				save: function() {
@@ -236,15 +239,19 @@
 			}
 			getBlogUser(data, function(res) {
 				if(res.success == 1) {
+					v.userName = name;
 					v.iconFile = res.data.userIcon;
 					v.description = res.data.description;
+					v.newDescription = res.data.description;
+					v.userId = res.data.userId;
+					getWho(function(res) {
+						$("#returnBlog").attr("href", "blogindex.html?id=" + v.userId);
+					});
+
 				} else {
 					$("#body").html('<p>数据不存在</p>');
 				}
 			})
-			getWho(function(res){
-				$("#returnBlog").attr("href","blogindex.html?id="+v.userId);
-			});
 
 		})
 	</script>

@@ -21,7 +21,7 @@
 			<div class="header">
 
 				<h1 id="application">选择你的应用
-					<template v-if="userName != ''">
+					<template v-if="currentUser != ''">
 						<a href="#" v-on:click="logOut">注销</a>
 					</template>
 					<template v-else="">
@@ -60,7 +60,9 @@
 				el: '#application',
 				data: {
 					userName: '',
-					userId: 0
+					userId: 0,
+					currentUser: '',
+					currentUserId: 0
 				},
 				methods: {
 					logOut: function() {
