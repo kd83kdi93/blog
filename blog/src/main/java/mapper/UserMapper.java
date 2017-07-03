@@ -13,4 +13,5 @@ public interface UserMapper {
 	User getByName(String name);
 	String getNameById(int id);
 	List<Family> getFamily();
+	User getById(int id);
 }

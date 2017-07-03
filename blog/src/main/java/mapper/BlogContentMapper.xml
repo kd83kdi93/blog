@@ -22,4 +22,9 @@
 	<select id="getBlogContent" resultType="domain.BlogContent">
 		select * from tb_blogcontent where id = #{blogId} limit 1
 	</select>
+	
+	<insert id="add">
+		insert into tb_blogcontent(blogtitle,blogcategory,recallnums,blogtext,blogcontent,time,blogpicture,userid)
+		values (#{blogTitle},#{blogCategory},#{recallNums},#{blogText},#{blogContent},#{time},#{blogPicture},#{userId})
+	</insert>
 </mapper>  

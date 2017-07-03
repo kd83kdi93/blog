@@ -19,6 +19,10 @@ function changeBlogUserInfo(fromData,successFun) {
 	sendFileAJAX('/blogapi/changeBlogUserInfo',fromData,successFun);
 }
 
+function writeBlog(fromData,successFun) {
+	sendFileAJAX('/blogapi/writeBlog',fromData,successFun);
+}
+
 function getFamily(successFun) {
 	sendAJAX('get','/blogapi/getFamily',null,successFun);
 }

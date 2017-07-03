@@ -10,4 +10,5 @@ public interface BlogContentMapper {
 	List<BlogContent> getBlogContentByPage(int userId, int pageStartNum);
 	int getMaxPageNum(int userId);
 	BlogContent getBlogContent(int blogId);
+	void add(BlogContent blogContent);
 }

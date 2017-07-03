@@ -12,6 +12,10 @@
    			select * from tb_user where name=#{name} and password=#{password} limit 1
    	</select>
    	
+   	<select id="getById" resultType="domain.User">
+   			select * from tb_user where id=#{id} limit 1
+   	</select>
+   	
    	<select id="getByName" resultType="domain.User">
    			select * from tb_user where name=#{name} limit 1
    	</select>

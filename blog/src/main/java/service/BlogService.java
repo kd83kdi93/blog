@@ -19,4 +19,5 @@ public interface BlogService {
 	BlogPersonInfoDto changeBlogUserInfo(String name, MultipartFile file, String description);
 	BlogPersonInfoDto getBlogUser(String name);
 	List<Family> getFamily();
+	boolean writeBlog(MultipartFile file, String title, String category, String content, int id);
 }

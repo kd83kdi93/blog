@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -199,6 +201,35 @@ public class BlogServiceImpl implements BlogService {
 	public List<Family> getFamily() {
 		List<Family> family = userMapper.getFamily();
 		return family;
+	}
+
+	@Override
+	public boolean writeBlog(MultipartFile file, String title, String category, String content, int id) {
+		boolean result = false;
+		User user = null;
+		user = userMapper.getById(id);
+		boolean nullFlag = user == null;
+		if (!nullFlag) {
+			String path = createFileAndWrite(file, user);
+			BlogContent blogContent = new BlogContent();
+			blogContent.setBlogCategory(category);
+			blogContent.setBlogContent(content);
+			blogContent.setBlogPicture(path);
+			int size = 0;
+			if (content.length() > 20) {
+				size = 20;
+			} else {
+				size = content.length();
+			}
+			blogContent.setBlogText(content.substring(0,size));
+			blogContent.setBlogTitle(title);
+			blogContent.setRecallNums(0);
+			blogContent.setTime(new Date(Calendar.getInstance().getTimeInMillis()));
+			blogContent.setUserId(id);
+			blogContentMapper.add(blogContent);
+			result = true;
+		}
+		return result;
 	}
 
 }

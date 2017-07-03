@@ -39,7 +39,7 @@
 							<a href="about.html">All Posts</a>
 						</li>
 						<li>
-							<a href="#" id="writeblog">Write a blog</a>
+							<a href="#" id="writeblog" onclick="checkBlogUser()">Write a blog</a>
 						</li>
 						<li>
 							<a href="about.html" id="aboutme">About Me</a>
@@ -53,80 +53,80 @@
 				<!--/.nav-collapse -->
 			</div>
 		</nav>
+		<div id="index">
+			<div class="container">
+				<br><br><br><br>
 
-		<div class="container">
-			<br><br><br><br>
+				<br><br><br>
 
-			<br><br><br>
-
-			<section id="index">
-				<div class="row">
-					<div class="col-md-8">
-						<article class="blog-post" v-for="item in blogContents">
-							<div class="blog-post-image">
-								<template v-if="maxPageNum != 0">
-									<a v-bind:href="'post.html?blogId='+item.id"> <img v-bind:src="item.blogPicture" alt="" height="500" width="750"></a>
-								</template>
-							</div>
-							<div class="blog-post-body">
-								<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
-								<template v-if="maxPageNum != 0">
-									<div class="post-meta"><span>by <a>{{userName}}</a></span>/<span><i class="fa fa-clock-o"></i>{{item.time}}</span>/<span><i class="fa fa-comment-o"></i> <a>{{item.recallNums}}</a></span></div>
-									<p>{{item.blogText}}</p>
-									<div class="read-more">
-										<a v-bind:href="'post.html?blogId='+item.id">Continue Reading</a>
-									</div>
-								</template>
-							</div>
-						</article>
-
-						<template v-if="maxPageNum != 0">
-							<div>
-								<ul class="pager">
-									<li class="previous">
-										<a v-on:click="getPrePage">&larr; Previous</a>
-									</li>
-									<li class="next">
-										<a v-on:click="getNextPage">Next &rarr;</a>
-									</li>
-								</ul>
-							</div>
-						</template>
-					</div>
-
-					<div class="col-md-4 sidebar-gutter">
-						<aside>
-							<!-- sidebar-widget -->
-							<div class="sidebar-widget">
-								<h3 class="sidebar-title">About Me</h3>
-								<div class="widget-container widget-about">
-									<a><img v-bind:src="blogUser.userIcon" alt="" height="420" width="640"></a>
-									<h4><a v-bind:href="'person.html?name='+userName">{{userName}}</a></h4>
-									<p>{{blogUser.userDescription}}</p>
+				<section>
+					<div class="row">
+						<div class="col-md-8">
+							<article class="blog-post" v-for="item in blogContents">
+								<div class="blog-post-image">
+									<template v-if="maxPageNum != 0">
+										<a v-bind:href="'post.html?blogId='+item.id"> <img v-bind:src="item.blogPicture" alt="" height="500" width="750"></a>
+									</template>
 								</div>
-							</div>
-							<!-- sidebar-widget -->
-							<div class="sidebar-widget">
-								<h3 class="sidebar-title">Featured Posts</h3>
-								<div class="widget-container">
-									<article class="widget-post" v-for="item in lastBlogContents">
-										<div class="post-image">
-											<template v-if="maxPageNum != 0">
-												<a v-bind:href="'post.html?blogId='+item.id"><img v-bind:src="item.blogPicture" alt="" height="60" width="90"></a>
-											</template>
+								<div class="blog-post-body">
+									<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
+									<template v-if="maxPageNum != 0">
+										<div class="post-meta"><span>by <a>{{userName}}</a></span>/<span><i class="fa fa-clock-o"></i>{{item.time}}</span>/<span><i class="fa fa-comment-o"></i> <a>{{item.recallNums}}</a></span></div>
+										<p>{{item.blogText}}</p>
+										<div class="read-more">
+											<a v-bind:href="'post.html?blogId='+item.id">Continue Reading</a>
 										</div>
-										<div class="post-body">
-											<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
-											<div class="post-meta">
+									</template>
+								</div>
+							</article>
+
+							<template v-if="maxPageNum != 0">
+								<div>
+									<ul class="pager">
+										<li class="previous">
+											<a v-on:click="getPrePage">&larr; Previous</a>
+										</li>
+										<li class="next">
+											<a v-on:click="getNextPage">Next &rarr;</a>
+										</li>
+									</ul>
+								</div>
+							</template>
+						</div>
+
+						<div class="col-md-4 sidebar-gutter">
+							<aside>
+								<!-- sidebar-widget -->
+								<div class="sidebar-widget">
+									<h3 class="sidebar-title">About Me</h3>
+									<div class="widget-container widget-about">
+										<a><img v-bind:src="blogUser.userIcon" alt="" height="420" width="640"></a>
+										<h4><a v-bind:href="'person.html?name='+userName">{{userName}}</a></h4>
+										<p>{{blogUser.userDescription}}</p>
+									</div>
+								</div>
+								<!-- sidebar-widget -->
+								<div class="sidebar-widget">
+									<h3 class="sidebar-title">Featured Posts</h3>
+									<div class="widget-container">
+										<article class="widget-post" v-for="item in lastBlogContents">
+											<div class="post-image">
 												<template v-if="maxPageNum != 0">
-													<span><i class="fa fa-clock-o"></i> {{item.time}}</span> <span><a><i class="fa fa-comment-o"></i> {{item.recallNums}}</a></span>
+													<a v-bind:href="'post.html?blogId='+item.id"><img v-bind:src="item.blogPicture" alt="" height="60" width="90"></a>
 												</template>
 											</div>
-										</div>
-									</article>
+											<div class="post-body">
+												<h2><a v-bind:href="'post.html?blogId='+item.id">{{item.blogTitle}}</a></h2>
+												<div class="post-meta">
+													<template v-if="maxPageNum != 0">
+														<span><i class="fa fa-clock-o"></i> {{item.time}}</span> <span><a><i class="fa fa-comment-o"></i> {{item.recallNums}}</a></span>
+													</template>
+												</div>
+											</div>
+										</article>
+									</div>
 								</div>
-							</div>
-							<!-- sidebar-widget 类别
+								<!-- sidebar-widget 类别
 							<div class="sidebar-widget">
 								<h3 class="sidebar-title">Categories</h3>
 								<div class="widget-container">
@@ -138,21 +138,67 @@
 								</div>
 							</div>
 							-->
-							<div class="sidebar-widget">
-								<h3 class="sidebar-title">You Family</h3>
-								<div class="widget-container">
-									<ul>
-										<li v-for="item in family">
-											<a v-bind:href="'blogindex.html?id='+item.id">{{item.name}}</a>
-										</li>
-									</ul>
+								<div class="sidebar-widget">
+									<h3 class="sidebar-title">You Family</h3>
+									<div class="widget-container">
+										<ul>
+											<li v-for="item in family">
+												<a v-bind:href="'blogindex.html?id='+item.id">{{item.name}}</a>
+											</li>
+										</ul>
+									</div>
 								</div>
-							</div>
+						</div>
+						</aside>
 					</div>
-					</aside>
+			</div>
+			</section>
+			<!-- 模态框（Modal） -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Write a Blog</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" role="form" id="writeBlogForm">
+								<div class="form-group">
+									<label for="picture" class="col-sm-2 control-label">picture</label>
+									<div class="col-sm-10">
+										<input type="file" class="form-control" name="file" id="picture" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="title" class="col-sm-2 control-label">title</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="title" id="title" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="category" class="col-sm-2 control-label">category</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="category" id="category" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="content" class="col-sm-2 control-label">content</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="25" name="content" id="content" v-model="content"></textarea>
+									</div>
+								</div>
+								<input type="hidden" name="id" v-bind:value="requestId" />
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary" onclick="sendBlog()">提交更改</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
 				</div>
-		</div>
-		</section>
+				<!-- /.modal -->
+			</div>
 		</div>
 
 		<script src="js/blogapp/jquery-3.2.1.min.js"></script>
@@ -179,7 +225,8 @@
 					family: {},
 					pageNum: 0,
 					maxPageNum: 0,
-					requestId: 0
+					requestId: 0,
+					content: ''
 				},
 				methods: {
 					getPrePage: function() {
@@ -216,6 +263,27 @@
 					alert(res.data);
 				}
 				window.scrollTo(0, 0);
+			}
+
+			function checkBlogUser() {
+				if(v.requestId == v.currentUserId) {
+					$("#myModal").modal('show');
+				} else {
+					alert("请登录该博客的账户然后在发表博文");
+				}
+			}
+
+			function sendBlog() {
+				let formData = new FormData($("#writeBlogForm")[0]);
+				writeBlog(formData, function(res) {
+					if(res.success == 1) {
+						$("#myModal").modal('hide');
+						v.content = "";
+						window.location.href= 'blogindex.html?id='+v.requestId;
+					} else {
+						alert("发表博文失败");
+					}
+				})
 			}
 
 			$(document).ready(function() {

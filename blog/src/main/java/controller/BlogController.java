@@ -120,5 +120,15 @@ public class BlogController {
 		}
 		return result;
 	}
+	
+	@RequestMapping("/writeBlog")
+	public Object writeBlog(MultipartFile file, String title, String category, String content, int id) {
+		Result result = new Result();
+		boolean success = blogService.writeBlog(file, title, category, content, id);
+		if (success) {
+			result.setSuccess(true);
+		}
+		return result;
+	}
 
 }
