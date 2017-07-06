@@ -36,13 +36,7 @@
 							<a href="" id="homeNV">Home</a>
 						</li>
 						<li>
-							<a href="about.html">All Posts</a>
-						</li>
-						<li>
-							<a href="#" id ="writeblog">Write a blog</a>
-						</li>
-						<li>
-							<a href="about.html" id="aboutme">About Me</a>
+							<a href="" id="aboutme">About Me</a>
 						</li>
 						<li>
 							<a href="applicationguide.html">Return Application Guide</a>
@@ -129,6 +123,8 @@
 		<script src="js/blogapp/url.js"></script>
 		<script src="js/interface/getParm.js"></script>
 		<script src="js/interface/blogInterface.js"></script>
+		<script src="js/interface/userInterface.js"></script>
+		<script src="js/interface/checkUserAccount.js"></script>
 		<script>
 			let v = new Vue({
 				el: "#post",
@@ -139,10 +135,13 @@
 					lastBlogContents: {},
 					blogContent: {},
 					userName: '',
+					currentUser: {},
+					currentUserId: 0
 				},
 			})
 
 			$(document).ready(function() {
+				getWho(function(res) {});
 				v.requestBlogId = parseInt(getQueryString('blogId'));
 				let data = {
 					blogId: v.requestBlogId

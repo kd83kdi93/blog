@@ -24,7 +24,33 @@
 	</select>
 	
 	<insert id="add">
-		insert into tb_blogcontent(blogtitle,blogcategory,recallnums,blogtext,blogcontent,time,blogpicture,userid)
-		values (#{blogTitle},#{blogCategory},#{recallNums},#{blogText},#{blogContent},#{time},#{blogPicture},#{userId})
+		insert into tb_blogcontent(blogtitle,
+		<if test="blogCategory != null">
+		blogcategory,
+		</if>
+		recallnums,blogtext,blogcontent,time,blogpicture,userid)
+		values (#{blogTitle},
+		<if test="blogCategory != null">
+		#{blogCategory},
+		</if>
+		#{recallNums},#{blogText},#{blogContent},#{time},#{blogPicture},#{userId})
 	</insert>
+	
+	<update id="addRecallNums">
+		update tb_blogcontent set recallnums=recallnums+1 where id=#{id}
+	</update>
+	
+	<select id="getMaxPageNumByCategory" resultType="int">
+		select count(0) from tb_blogcontent where blogcategory = #{param1} and userid = #{param2}
+	</select>
+	
+	<select id="getByCategory" resultType="domain.BlogContent">
+		select id,blogtitle,blogcategory,blogtext,time from tb_blogcontent where blogcategory = #{param1} 
+		and userid = #{param3}
+		limit #{param2},10
+	</select>
+	
+	<select id="getCategories" resultType="String">
+		select blogcategory from tb_blogcontent where userid = #{id} group by blogcategory;
+	</select>
 </mapper>  

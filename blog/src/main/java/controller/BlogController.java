@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import domain.BlogContent;
+import dto.AllPostDto;
 import dto.BlogIndexDto;
 import dto.BlogPersonInfoDto;
 import dto.BlogPostDto;
@@ -67,6 +70,7 @@ public class BlogController {
 		Result result = new Result();
 		BlogPostDto blogPostDto = blogService.getBlog(blogId);
 		if (blogPostDto.getContent() != null) {
+			blogService.addRecallNums(blogId);
 			result.setSuccess(true);
 			result.setData(blogPostDto);
 		} else {
@@ -82,7 +86,7 @@ public class BlogController {
 		boolean successFlag = result.isSuccess();
 		if (!fileNotEmptyFlag) {
 			result.setSuccess(false);
-			result.setData("请选择上传头像");
+			result.setData(ResponseString.userIconErr);
 		}
 		if (successFlag && fileNotEmptyFlag) {
 			BlogPersonInfoDto blogPersonInfoDto = blogService.changeBlogUserInfo(name, file, description);
@@ -107,7 +111,7 @@ public class BlogController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping("/getFamily")
 	public Object getFamily() {
 		Result result = new Result();
@@ -120,13 +124,45 @@ public class BlogController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping("/writeBlog")
 	public Object writeBlog(MultipartFile file, String title, String category, String content, int id) {
 		Result result = new Result();
-		boolean success = blogService.writeBlog(file, title, category, content, id);
-		if (success) {
+		boolean fileEmptyFlag = file.getOriginalFilename().equals("");
+		boolean titleNullFlag = title.equals("");
+		boolean contentNullFlag = content.equals("");
+		do {
+			if (fileEmptyFlag) {
+				result.setData(ResponseString.blogPictureErr);
+				break;
+			}
+			if (titleNullFlag) {
+				result.setData(ResponseString.blogTitleErr);
+				break;
+			}
+			if (contentNullFlag) {
+				result.setData(ResponseString.blogContentErr);
+				break;
+			}
+			boolean success = blogService.writeBlog(file, title, category, content, id);
+			if (success) {
+				result.setSuccess(true);
+			}
+		} while (false);
+		return result;
+	}
+	
+	
+	@RequestMapping("/allPost")
+	public Object allPost(int id, String category, int pageNum) throws UnsupportedEncodingException {
+		Result result = new Result();
+		category = URLDecoder.decode(category, "utf-8");
+		AllPostDto allPostDto = blogService.getBlogByCategory(id , category , pageNum);
+		if (allPostDto != null) {
 			result.setSuccess(true);
+			result.setData(allPostDto);
+		} else {
+			result.setData("数据不存在");
 		}
 		return result;
 	}

@@ -26,3 +26,7 @@ function writeBlog(fromData,successFun) {
 function getFamily(successFun) {
 	sendAJAX('get','/blogapi/getFamily',null,successFun);
 }
+
+function allPost(data,successFun) {
+	sendAJAX('get','/blogapi/allPost',data,successFun);
+}

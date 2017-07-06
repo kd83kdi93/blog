@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import domain.BlogContent;
 import domain.BlogUser;
 import domain.User;
+import dto.AllPostDto;
 import dto.BlogIndexDto;
 import dto.BlogPersonInfoDto;
 import dto.BlogPostDto;
@@ -66,7 +67,7 @@ public class BlogServiceImpl implements BlogService {
 		BlogUser blogUser = blogUserMapper.getByUserId(userId);
 		List<Family> family = userMapper.getFamily();
 		checkDtoFiled(blogContents, blogUser, family);
-		maxPageNum = getMaxPageNum(maxPageNum);
+		maxPageNum = getMaxPageNum(maxPageNum,5);
 		BlogIndexDto blogIndexDto = new BlogIndexDto(blogContents, categories, family, blogUser, userName, maxPageNum);
 		return blogIndexDto;
 	}
@@ -87,11 +88,11 @@ public class BlogServiceImpl implements BlogService {
 			}
 	}
 
-	public int getMaxPageNum(int maxPageNum) {
-		if (maxPageNum % 5 == 0) {
-			maxPageNum = maxPageNum / 5;
+	public int getMaxPageNum(int maxPageNum, int size) {
+		if (maxPageNum % size == 0) {
+			maxPageNum = maxPageNum / size;
 		} else {
-			maxPageNum = maxPageNum / 5 + 1;
+			maxPageNum = maxPageNum / size + 1;
 		}
 		return maxPageNum;
 	}
@@ -212,7 +213,9 @@ public class BlogServiceImpl implements BlogService {
 		if (!nullFlag) {
 			String path = createFileAndWrite(file, user);
 			BlogContent blogContent = new BlogContent();
-			blogContent.setBlogCategory(category);
+			if (!category.equals("")) {
+				blogContent.setBlogCategory(category);
+			}
 			blogContent.setBlogContent(content);
 			blogContent.setBlogPicture(path);
 			int size = 0;
@@ -230,6 +233,29 @@ public class BlogServiceImpl implements BlogService {
 			result = true;
 		}
 		return result;
+	}
+
+	@Override
+	public void addRecallNums(int id) {
+		blogContentMapper.addRecallNums(id);
+	}
+
+	@Override
+	public AllPostDto getBlogByCategory(int id, String category, int pageNum) {
+		AllPostDto allPostDto = null;
+		User user = userMapper.getById(id);
+		if (user != null) {
+			allPostDto = new AllPostDto();
+			int maxPageNum = blogContentMapper.getMaxPageNumByCategory(category,id);
+			maxPageNum = getMaxPageNum(maxPageNum,10);
+			List<BlogContent> blogContents = blogContentMapper.getByCategory(category, pageNum*10, id);
+			List<String> categories = blogContentMapper.getCategories(id);
+			allPostDto.setBlogContents(blogContents);
+			allPostDto.setMaxPageNum(maxPageNum);
+			allPostDto.setCategories(categories);
+			allPostDto.setUser(user);
+		}
+		return allPostDto;
 	}
 
 }

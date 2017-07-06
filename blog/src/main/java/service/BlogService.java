@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import domain.BlogContent;
+import dto.AllPostDto;
 import dto.BlogIndexDto;
 import dto.BlogPersonInfoDto;
 import dto.BlogPostDto;
@@ -20,4 +21,6 @@ public interface BlogService {
 	BlogPersonInfoDto getBlogUser(String name);
 	List<Family> getFamily();
 	boolean writeBlog(MultipartFile file, String title, String category, String content, int id);
+	void addRecallNums(int id);
+	AllPostDto getBlogByCategory(int id, String category, int pageNum);
 }

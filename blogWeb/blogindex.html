@@ -36,13 +36,13 @@
 							<a href="" id="homeNV">Home</a>
 						</li>
 						<li>
-							<a href="about.html">All Posts</a>
+							<a href="" id="allPost">All Posts</a>
 						</li>
 						<li>
 							<a href="#" id="writeblog" onclick="checkBlogUser()">Write a blog</a>
 						</li>
 						<li>
-							<a href="about.html" id="aboutme">About Me</a>
+							<a href="" id="aboutme">About Me</a>
 						</li>
 						<li>
 							<a href="applicationguide.html">Return Application Guide</a>
@@ -281,7 +281,7 @@
 						v.content = "";
 						window.location.href= 'blogindex.html?id='+v.requestId;
 					} else {
-						alert("发表博文失败");
+						alert(res.data);
 					}
 				})
 			}
@@ -304,6 +304,7 @@
 						v.family = res.data.family;
 						$('#homeNV').attr('href', 'blogindex.html?id=' + res.data.blogUser.userId);
 						$("#aboutme").attr('href', 'person.html?name=' + res.data.userName);
+						$("#allPost").attr('href', 'allpost.html?id=' + res.data.blogUser.userId);
 					} else {
 						$("#body").html('<p>数据不存在</p>');
 					}
