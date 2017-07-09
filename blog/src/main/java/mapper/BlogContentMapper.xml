@@ -47,7 +47,7 @@
 	<select id="getByCategory" resultType="domain.BlogContent">
 		select id,blogtitle,blogcategory,blogtext,time from tb_blogcontent where blogcategory = #{param1} 
 		and userid = #{param3}
-		limit #{param2},10
+		limit #{param2},#{param4}
 	</select>
 	
 	<select id="getCategories" resultType="String">

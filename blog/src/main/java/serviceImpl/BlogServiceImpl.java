@@ -244,11 +244,12 @@ public class BlogServiceImpl implements BlogService {
 	public AllPostDto getBlogByCategory(int id, String category, int pageNum) {
 		AllPostDto allPostDto = null;
 		User user = userMapper.getById(id);
+		int pageDiv = 1;
 		if (user != null) {
 			allPostDto = new AllPostDto();
 			int maxPageNum = blogContentMapper.getMaxPageNumByCategory(category,id);
-			maxPageNum = getMaxPageNum(maxPageNum,10);
-			List<BlogContent> blogContents = blogContentMapper.getByCategory(category, pageNum*10, id);
+			maxPageNum = getMaxPageNum(maxPageNum,pageDiv);
+			List<BlogContent> blogContents = blogContentMapper.getByCategory(category, pageNum*pageDiv, id, pageDiv);
 			List<String> categories = blogContentMapper.getCategories(id);
 			allPostDto.setBlogContents(blogContents);
 			allPostDto.setMaxPageNum(maxPageNum);

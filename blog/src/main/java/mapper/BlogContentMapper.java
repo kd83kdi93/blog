@@ -13,6 +13,6 @@ public interface BlogContentMapper {
 	void add(BlogContent blogContent);
 	void addRecallNums(int id);
 	int getMaxPageNumByCategory(String category, int id);
-	List<BlogContent> getByCategory(String category, int pageNum, int id);
+	List<BlogContent> getByCategory(String category, int pageNum, int id, int pageDiv);
 	List<String> getCategories(int id);
 }
