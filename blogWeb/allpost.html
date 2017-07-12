@@ -61,7 +61,7 @@
 												<div class="control-label col-lg-0">
 												</div>
 												<div class="col-lg-2">
-													<select class="form-control" onchange="">
+													<select class="form-control" v-model="selected" v-on:change="changeCategory">
 														<template v-for="item in categories">
 															<option>{{item}}</option>
 														</template>
@@ -104,27 +104,18 @@
 									</table>
 									<ul class="pagination">
 										<li>
-											<a href="#">&laquo;</a>
+											<a href="#" v-on:click="goPage(pageNum-1)">&laquo;</a>
 										</li>
-										<li class="active">
-											<a href="#">1</a>
-										</li>
-										<li class="disabled">
-											<a href="#">2</a>
-										</li>
+										<template v-for="item in pageNumArray" id="pageTemplage">
+											<li v-bind:class="{'active':item == pageNum}" v-bind:key="item">
+												<a href="#" v-on:click="goPage(item)">{{item}}</a>
+											</li>
+										</template>
 										<li>
-											<a href="#">3</a>
-										</li>
-										<li>
-											<a href="#">4</a>
-										</li>
-										<li>
-											<a href="#">5</a>
-										</li>
-										<li>
-											<a href="#">&raquo;</a>
+											<a href="#" v-on:click="goPage(pageNum+1)">&raquo;</a>
 										</li>
 									</ul>
+									<p>{{pageNum}}</p>
 								</div>
 							</article>
 						</div>
@@ -159,17 +150,64 @@
 					blogContents: {},
 					pageNum: 0,
 					maxPageNum: 0,
-					categories: {}
+					categories: {},
+					selected: "默认分类",
+					pageNumArray: [],
+					perPageNum: 5
+				},
+				methods: {
+					changeCategory: function() {
+						getAllPost(1, v.selected);
+					},
+					goPage: function(num) {
+						if((num > 0) && (num <= v.maxPageNum)) {
+							v.pageNum = num;
+							getAllPost(num, v.selected);
+						}
+					},
 				}
 			})
 
-			$(document).ready(function() {
-				getWho(function(res) {});
+			function getPageArray(maxPage, num) {
+				if(num < v.perPageNum) { //如果当前的激活的项 小于要显示的条数
+					//总页数和要显示的条数那个大就显示多少条
+					let end = Math.min(v.perPageNum, maxPage);
+					let tmpArray = new Array();
+					let tmpIndex = 0;
+					for(let i = 1; i <= end; i++) {
+						tmpArray[tmpIndex] = i;
+						tmpIndex++;
+					}
+					v.pageNumArray = tmpArray;
+				} else { //当前页数大于显示页数了
+					let start = num - Math.floor(v.perPageNum / 2); //从哪里开始
+					if(start > (maxPage - v.perPageNum)) {
+						start = (maxPage - v.perPageNum) + 1
+					}
+					let sub = maxPage - start;
+					let tmpIndex = 0;
+					let tmpArray = new Array();
+					if(sub >= v.perPageNum) {
+						for(let i = start; i <= start + v.perPageNum; i++) {
+							tmpArray[tmpIndex] = i;
+							tmpIndex++;
+						}
+					} else {
+						for(let i = start; i <= maxPage; i++) {
+							tmpArray[tmpIndex] = i;
+							tmpIndex++;
+						}
+					}
+					v.pageNumArray = tmpArray;
+				}
+			}
+
+			function getAllPost(num, category) {
 				v.requestId = parseInt(getQueryString('id'));
 				let data = {
 					id: v.requestId,
-					category: encodeURI("默认分类"),
-					pageNum: 0
+					category: encodeURI(category),
+					pageNum: num
 				}
 				allPost(data, function(res) {
 					if(res.success == 1) {
@@ -177,13 +215,19 @@
 						v.categories = res.data.categories;
 						v.maxPageNum = res.data.maxPageNum;
 						v.user = res.data.user;
+						v.pageNum = num;	
 						$('#homeNV').attr('href', 'blogindex.html?id=' + res.data.user.id);
 						$("#aboutme").attr('href', 'person.html?name=' + res.data.user.name);
+						getPageArray(res.data.maxPageNum, num);
 					} else {
 						alert(res.data);
 					}
 				})
+			}
 
+			$(document).ready(function() {
+				getWho(function(res) {});
+				getAllPost(1, '默认分类');
 			})
 		</script>
 	</body>

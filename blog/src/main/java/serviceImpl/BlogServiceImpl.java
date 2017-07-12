@@ -249,7 +249,7 @@ public class BlogServiceImpl implements BlogService {
 			allPostDto = new AllPostDto();
 			int maxPageNum = blogContentMapper.getMaxPageNumByCategory(category,id);
 			maxPageNum = getMaxPageNum(maxPageNum,pageDiv);
-			List<BlogContent> blogContents = blogContentMapper.getByCategory(category, pageNum*pageDiv, id, pageDiv);
+			List<BlogContent> blogContents = blogContentMapper.getByCategory(category, pageNum*pageDiv-pageDiv, id, pageDiv);
 			List<String> categories = blogContentMapper.getCategories(id);
 			allPostDto.setBlogContents(blogContents);
 			allPostDto.setMaxPageNum(maxPageNum);
